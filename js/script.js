@@ -51,7 +51,6 @@ class Story {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
-        this.storyMessage = ""
         this.choices = []
         this.introScript = ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
                             "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
@@ -63,6 +62,14 @@ class Story {
                             "With no streetlamps, the road fades into the dim light several hundred yards away, just beyond an ominous-looking alleyway adjacent to a small merchant's shop.",
                             "You quickly check your belt, making sure that your sword is at the ready and your cord for binding the target's hands is easily accessible.",
                             "You've captured enough bounty targets to know that you can never be too prepared."]
+        this.atWoodenDoorScript = ["You take a deep breath and knock on the door.",
+                                    "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                                    "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                                    "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                                    "The furniture is falling apart and everything is covered in filth.",
+                                    "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                                    "The {pet} inside, sensing the tension, stares back at you.",
+                                    "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]
 
     }
     tellStory(storyArray){
@@ -123,7 +130,7 @@ resetBtn.addEventListener("click", (evnt) => {
 
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    newStory.tellStory(newStory.introScript)
+    return newStory.tellStory(newStory.introScript)
 })
 
 
@@ -301,26 +308,7 @@ def toward_dead_end(guy, pet, target):
 
 def knock_wooden_door(guy, pet, target):
     if "been_to_wooden_door" not in inventory:
-        print_pause("\nYou take a deep breath and knock on "
-                    "the door.", 2)
-        print_pause("The door opens wide and you find yourself "
-                    f"looking up at a {guy} standing at least "
-                    "two heads taller than you, his silhouette "
-                    "obscuring the lamplight behind him.", 4)
-        print_pause("You confidently stare him in the eyes and "
-                    "declare,\n", 3)
-        print_pause('"I\'m looking for Bob. Is this your name?"\n', 4)
-        print_pause("In the following seconds of awkward silence, you "
-                    "quickly take in what you see behind him.", 4)
-        print_pause("The furniture is falling apart and everything "
-                    "is covered in filth.", 4)
-        print_pause("A cage is perched precariously on top of "
-                    "a bench in the corner, the cage door askew.", 4)
-        print_pause(f"The {pet} inside, sensing the tension, "
-                    "stares back at you.", 4)
-        print_pause(f"The {guy} clears his throat and slowly reaches "
-                    " toward the heavy wooden club resting on "
-                    "the table nearby.\n\n", 5)
+        print messages
         inventory.append("been_to_wooden_door")
         if target == guy:
             print_pause("\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, "
