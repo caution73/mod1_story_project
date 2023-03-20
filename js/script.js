@@ -28,7 +28,7 @@ enemy class/object
 
 
 */
-
+/*
 const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
@@ -55,7 +55,7 @@ class Story {
 
     }
     updateInventory(){
-        
+
     }
 
     
@@ -74,7 +74,7 @@ class Player {
     }
 }
 
-
+*/
 
 /*
 // =============================================
