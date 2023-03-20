@@ -30,6 +30,10 @@ main {
     width: 6vw;
     position:absolute;
     justify-self: left;
+    text-align: center;
+    font-size: 4vh;
+    margin-left: -93vw;
+    margin-top: 1vh;
     
 }
 
@@ -39,6 +43,25 @@ main {
     text-align: center;
     width: 60vw;
     height: 30vh;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    font-size: 5vh;
+    
+}
+
+.next {
+    border: 1px solid black;
+    background-color: lightgray;
+    height: 5vh;
+    width: 5vw;
+    position: absolute;
+    align-self: flex-end;
+    justify-self: right;
+    font-size: 4vh;
+    margin-bottom: 2vh;
+    margin-left: 52vw;
+
 }
 
 .controlsWindow {
@@ -84,6 +107,8 @@ main {
     background-color: lightgray;
     height: 8vh;
     width: 7vw;
+    text-align: center;
+    font-size: 6vh;
 }
 
 .notes {

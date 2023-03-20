@@ -33,6 +33,9 @@ const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
 
+let next = true;
+let messageActive = false;
+
 class Story {
     constructor() {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
@@ -40,10 +43,31 @@ class Story {
         this.target = this.guy
         this.storyMessage = ""
         this.choices = []
+        this.introScript = ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
+                            "'This is it,' you mutter to yourself, wondering why you signed up to hunt some guy named Bob down in this small mountain town so far from home.", 
+                            "You take a swig of water from your canteen and observe your surroundings.",
+                            "With the door in front of you, the street stretches out in opposite directions to both sides, lined with tudor-style homes that had no room to breathe on either side.",
+                            "To your left, the street barely continues for a dozen yards before ending abruptly at the interior of the city wall.",
+                            "A single, lonely door and a dimly lit window in the neighboring home are all that there is to see here.",
+                            "To your right, the moonlit street leads to the town center.",
+                            "With no streetlamps, the road fades into the dim light several hundred yards away, just beyond an ominous-looking alleyway adjacent to a small merchant's shop.",
+                            "You quickly check your belt, making sure that your sword is at the ready and your cord for binding the target's hands is easily accessible.",
+                            "You've captured enough bounty targets to know that you can never be too prepared.]
 
     }
-    updateStory(){
+    tellStory(storyArray){
+        messageActive = true;
+        const messageArray = this.storyArray;
+        updateMessageDiv(messageArray[0])
+        messageArray.shift()
+        if (messageArray.length === 0){
+            messageActive = false;
+        }
+       
 
+    }
+    updateMessageDiv(message){
+        
     }
     updateArt(){
 
@@ -70,7 +94,7 @@ class Guy {
 class Player {
     constructor(){
         this.name = ""
-        this.inventory = ["Clothes", "Sword", "bindings"]
+        this.inventory = ["Clothes", "Sword", "Bindings"]
     }
 }
 
@@ -128,35 +152,7 @@ def play_game():
 
 
 def intro(guy, pet, target):
-    print_pause("\nYou find yourself on a dark street on a cool "
-                "summer evening, having finally found the wooden "
-                "door that your bounty target resides behind.\n", 3)
-    print_pause("'This is it,' you mutter to yourself, wondering "
-                "why you signed up to hunt some guy named Bob down "
-                "in this small mountain town so far from home.\n", 4)
-    print_pause("You take a swig of water from your canteen and "
-                "observe your surroundings.\n", 2)
-    print_pause("With the door in front of you, the street stretches "
-                "out in opposite directions to both sides, lined with "
-                "tudor-style homes that had no room to breathe on "
-                "either side.\n", 4)
-    print_pause("To your left, the street barely continues for a "
-                "dozen yards before ending abruptly at the interior "
-                "of the city wall.\n", 3)
-    print_pause("A single, lonely door and a dimly lit window in "
-                "the neighboring home are all that there is to see "
-                "here.\n", 3)
-    print_pause("To your right, the moonlit street leads to the town "
-                "center.", 2)
-    print_pause("With no streetlamps, the road fades into the dim light "
-                "several hundred yards away, just beyond "
-                "an ominous-looking alleyway adjacent to a small "
-                "merchant's shop.\n", 4)
-    print_pause("You quickly check your belt, making sure that your "
-                "sword is at the ready and your cord for binding the "
-                "target's hands is easily accessible.\n", 3)
-    print_pause("You've captured enough bounty targets to know that you "
-                "can never be too prepared.\n", 3)
+    print yur messages
     at_door(guy, pet, target)
 
 
