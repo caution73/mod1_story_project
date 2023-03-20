@@ -29,11 +29,52 @@ enemy class/object
 
 */
 
+const guys = ["man", "troll", "centaur"]
+const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
+"sparrow", "parrot", "crow", "hamster", "chinchilla"]
+
 class Story {
     constructor() {
+        this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
+        this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
+        this.target = this.guy
+        this.storyMessage = ""
+        this.choices = []
+
+    }
+    updateStory(){
+
+    }
+    updateArt(){
+
+    }
+    startGame(){
+
+    }
+    reset(){
+
+    }
+    updateInventory(){
         
     }
+
+    
 }
+
+class Guy {
+    constructor(){
+        this.type = 
+    }
+}
+
+class Player {
+    constructor(){
+        this.name = ""
+        this.inventory = ["Clothes", "Sword", "bindings"]
+    }
+}
+
+
 
 /*
 // =============================================
@@ -377,7 +418,7 @@ def knock_wooden_door(guy, pet, target):
                 print_pause("You feel an overwhelming sense of despair, "
                             "losing your grip on the sword.", 3)
                 print_pause("You stand there, frozen in fear as your sword "
-                            "drops to stone floor, the clanging sound "
+                            "drops to the stone street, the clanging sound "
                             "breaking the deadly silence.\n", 3)
                 print_pause("Everything goes dark...\n\n", 4)
                 print_pause("...", 3)
