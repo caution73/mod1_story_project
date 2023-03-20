@@ -33,9 +33,15 @@ const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
 
-const messageBox = document.querySelector(".storyMessage")
+const messageBox = document.querySelector(".storyMessage p")
 const choices = document.querySelector(".choiceDisplay")
 const artWindow = document.querySelector(".artWindow")
+const nextBtn = document.querySelector(".next")
+const resetBtn = document.querySelector(".reset")
+const btn1 = document.querySelector("button1")
+const btn2 = document.querySelector("button2")
+const btn3 = document.querySelector("button3")
+const btn4 = document.querySelector("button4")
 
 let next = true;
 let messageActive = false;
@@ -62,7 +68,7 @@ class Story {
     tellStory(storyArray){
         messageActive = true;
         const messageArray = storyArray;
-        updateMessageDiv(messageArray[0])
+        this.updateMessageDiv(messageArray[0])
         messageArray.shift()
         if (messageArray.length === 0){
             messageActive = false;
@@ -73,7 +79,7 @@ class Story {
     updateMessageDiv(message){
         messageBox.textContent = message;
     }
-    
+
     updateArt(image){
         console.log(artWindow)
         artWindow.style.backgroundImage = image;
@@ -83,6 +89,7 @@ class Story {
 
     }
     reset(){
+        console.log("resetting the game")
 
     }
     updateInventory(){
@@ -105,7 +112,19 @@ class Player {
     }
 }
 
+
+
 const newStory = new Story()
+
+resetBtn.addEventListener("click", (evnt) => {
+    evnt.preventDefault()
+    newStory.reset()
+})
+
+nextBtn.addEventListener("click", (evnt) => {
+    evnt.preventDefault()
+    newStory.tellStory(newStory.introScript)
+})
 
 
 
