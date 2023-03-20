@@ -17,7 +17,8 @@ main {
 }
 
 .artWindow {
-    background-color: blue;
+    background-image: url("images/DarkVillage.png");
+    background-position: cover;
     height: 60vh;
     display: flex;
     justify-content: center;
@@ -25,20 +26,23 @@ main {
 }
 
 .reset {
-    background-color: white;
+    background-color: transparent;
     height: 5vh;
     width: 6vw;
     position:absolute;
     justify-self: left;
     text-align: center;
     font-size: 4vh;
+    color: lightgray;
     margin-left: -93vw;
     margin-top: 1vh;
     
 }
 
 .storyMessage {
-    background-color: white;
+    background-color: black;
+    opacity: .7;
+    color: white;
     align-self: center;
     text-align: center;
     width: 60vw;
@@ -52,7 +56,8 @@ main {
 
 .next {
     border: 1px solid black;
-    background-color: lightgray;
+    background-color: darkslategrey;
+    opacity: 1;
     height: 5vh;
     width: 5vw;
     position: absolute;

@@ -28,10 +28,14 @@ enemy class/object
 
 
 */
-/*
+
 const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
+
+const messageBox = document.querySelector(".storyMessage")
+const choices = document.querySelector(".choiceDisplay")
+const artWindow = document.querySelector(".artWindow")
 
 let next = true;
 let messageActive = false;
@@ -44,7 +48,7 @@ class Story {
         this.storyMessage = ""
         this.choices = []
         this.introScript = ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
-                            "'This is it,' you mutter to yourself, wondering why you signed up to hunt some guy named Bob down in this small mountain town so far from home.", 
+                            "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
                             "You take a swig of water from your canteen and observe your surroundings.",
                             "With the door in front of you, the street stretches out in opposite directions to both sides, lined with tudor-style homes that had no room to breathe on either side.",
                             "To your left, the street barely continues for a dozen yards before ending abruptly at the interior of the city wall.",
@@ -52,12 +56,12 @@ class Story {
                             "To your right, the moonlit street leads to the town center.",
                             "With no streetlamps, the road fades into the dim light several hundred yards away, just beyond an ominous-looking alleyway adjacent to a small merchant's shop.",
                             "You quickly check your belt, making sure that your sword is at the ready and your cord for binding the target's hands is easily accessible.",
-                            "You've captured enough bounty targets to know that you can never be too prepared.]
+                            "You've captured enough bounty targets to know that you can never be too prepared."]
 
     }
     tellStory(storyArray){
         messageActive = true;
-        const messageArray = this.storyArray;
+        const messageArray = storyArray;
         updateMessageDiv(messageArray[0])
         messageArray.shift()
         if (messageArray.length === 0){
@@ -67,9 +71,12 @@ class Story {
 
     }
     updateMessageDiv(message){
-        
+        messageBox.textContent = message;
     }
-    updateArt(){
+    
+    updateArt(image){
+        console.log(artWindow)
+        artWindow.style.backgroundImage = image;
 
     }
     startGame(){
@@ -87,7 +94,7 @@ class Story {
 
 class Guy {
     constructor(){
-        this.type = 
+        this.type = ""
     }
 }
 
@@ -98,7 +105,12 @@ class Player {
     }
 }
 
-*/
+const newStory = new Story()
+
+
+
+
+
 
 /*
 // =============================================
