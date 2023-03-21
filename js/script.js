@@ -35,7 +35,7 @@ const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 
 const messageBox = document.querySelector(".storyMessage")
 const messageText = document.querySelector(".storyMessage p")
-const choiceDisplay = document.querySelector(".choiceDisplay")
+const choiceDisplay = document.querySelector(".choicesDisplay")
 const artWindow = document.querySelector(".artWindow")
 const nextBtn = document.querySelector(".next")
 const resetBtn = document.querySelector(".reset")
@@ -52,7 +52,7 @@ class Story {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
-        this.choices = { atWoodenDoorChoices : [{prompt : ["You stand in front of the wooden door, the address that you were told to find Bob.", 
+        this.choices = { atWoodenDoorChoices : [{prompt : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
                                                             "What do you do next?"]},
                                                 {options : ["1. Knock on the wooden door.",
                                                             "2. Walk left, toward the neighbor's house and the dead end.",
@@ -120,8 +120,8 @@ class Story {
         this.updateMessageDiv(storyArray[0])
         if (storyArray.length === 0){  // If all array messages have been removed...
             messageActive = false;
-            messageBox.style.display = "none";
-            nextBtn.style.display = "none";
+            messageBox.style.visibility = "hidden";
+            nextBtn.style.visibility = "hidden";
             this.presentChoices()
         }
         storyArray.shift()
@@ -135,9 +135,19 @@ class Story {
     presentChoices(){
         console.log("printing choiceList from presentChoices()")
         console.log(choicesVar)
-        console.log(promptVar)
-        choiceDisplay.textContent = choicesVar;
-        this.updateMessageDiv()
+        messageActive = true;
+        messageBox.style.visibility = "visible";
+        nextBtn.style.visibility = "visible";
+        this.updateMessageDiv(promptVar[0])
+        if (promptVar.length === 0){  // If all array messages have been removed...
+            messageActive = false;
+            messageBox.style.visibility = "hidden";
+            nextBtn.style.visibility = "hidden";
+            choiceDisplay.textContent = choicesVar;
+            console.log(choiceDisplay.textContent)
+        }
+        promptVar.shift()
+        
     }
 
     updateArt(image){
