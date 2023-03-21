@@ -47,6 +47,7 @@ const btn4 = document.querySelector("button4")
 let next = true;
 let messageActive = false;
 let gamecount = 0;
+let nextScene = "";
 
 
 class Story {
@@ -54,7 +55,12 @@ class Story {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
-        this.choices = []
+        this.choices = { atWoodenDoorChoices : {prompts : ["You stand in front of the wooden door, the address that you were told to find Bob.", 
+                                                            "What do you do next?"]},
+                                                {options : ["1. Knock on the wooden door.",
+                                                            "2. Walk left, toward the neighbor's house and the dead end.",
+                                                            "3. Walk right, toward the alley and merchant."]}
+    }
         this.scripts = {
             introScript : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
                             "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
@@ -111,7 +117,7 @@ class Story {
          
 
     }
-    tellStory(storyArray){
+    tellStory(storyArray, prompt, nextChoices){
         messageActive = true;
         const messageArray = storyArray;
         this.updateMessageDiv(messageArray[0])
@@ -119,7 +125,7 @@ class Story {
             messageActive = false;
             messageBox.style.display = "none";
             nextBtn.style.display = "none";
-
+            this.presentChoices(prompt, nextChoices)
         }
         messageArray.shift()
        
@@ -129,8 +135,9 @@ class Story {
         messageText.textContent = message;
     }
 
-    presentChoices(choiceList){
+    presentChoices(prompt, choiceList){
         choices.textContent = choiceList;
+        this.updateMessageDiv(prompt)
     }
 
     updateArt(image){
@@ -145,7 +152,6 @@ class Story {
         console.log("resetting the game")
         gamecount++
         let gameName = "game" + gamecount
-        console.log(gameName)
         gameName = new Story()
         console.log(gameName)
 
@@ -176,7 +182,7 @@ class Player {
 
 const newStory = new Story()
 
-let nextScene = newStory.scripts.introScript
+nextScene = newStory.scripts.introScript
 
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
@@ -267,9 +273,7 @@ def after_game():
 
 def at_door(guy, pet, target):  # Player choices from in front of door.
     attempt_count = 0  # how many times has this loop already been run.
-    print_pause("You stand in front of the wooden door, the "
-                "address that you were told to find Bob.\n", 3)
-    print_pause("What do you do next?", 2)
+    print messages
     door_choice = valid_input(attempt_count, "Please enter the "
                               "number of your selection.\n\n1. Knock "
                               "on the wooden door.\n2. Walk left, "
