@@ -55,7 +55,41 @@ class Story {
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
         
-        
+        this.locations = {
+            atWoodenDoor : [
+                {scripts : [
+                    {all : ["You take a deep breath and knock on the door.",
+                            "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                            "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                            "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                            "The furniture is falling apart and everything is covered in filth.",
+                            "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                            "The {pet} inside, sensing the tension, stares back at you.",
+                            "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]},
+                    {guyTarget : [["\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
+                    "You unsheath your sword and raise it to block as the {guy} takes a massive swing at you.",
+                    "The club makes contact with your sword, but it hits with such force that your block gives way.",
+                    "You stagger backward. Maybe this foe is more than your sword can handle alone.",
+                    '"Let that be a lesson to you! Tell your boss that Bob sends his regards!" Bob yells as he gestures to himself.',
+                    "Bob slams the door, leaving you feeling defeated out on the street.",
+                    "Maybe the merchant has additional weaponry that could be of use?"],
+                    ["You knock on the wooden door...again.",
+                    "The door swings open and Bob, fuming, raises his club.",
+                    '"I told you to leave!!! You won\'t be walking away this time!!!" he shouts.'],
+                    ["He lunges forward and takes a mighty swing.", 
+                    "You do your best to dodge the incoming club, but you just can't move fast enough...", 
+                    "The club hits you in the head. Everything goes dark...",
+                    "...", "YOU LOSE!!!", "Next time, do better."],
+                    ["He takes a mighty swing, but his club glances off your shield as you thrust your sword forward, stopping just inches from his throat.",
+                    "Shocked, Bob drops his club and raises his hands slowly, surrendering to his captor.",
+                    "You bind his hands and pull him out into the street.",
+                    "Your journey to return Bob to the client has only just begun...",
+                    "YOU WON!!!",
+                    "Congratulations! But beware...this story may not play out how you think next time..."]]}]},
+                {prompts : []},
+                {choices : []}
+        ]},
+                       
         this.scripts = {
             introScript : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
                             "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
@@ -113,7 +147,7 @@ class Story {
                                                 {options : ["Knock on the wooden door.",
                                                             "Walk left, toward the neighbor's house and the dead end.",
                                                             "Walk right, toward the alley and merchant."]},
-                                                { nexts : [this.scripts.atWoodenDoorScript]}]
+                                                { nexts : [this.scripts.atWoodenDoorScript, ]}]
         }
         
          
@@ -211,6 +245,7 @@ class Player {
         this.inventory = ["Clothes", "Sword", "Bindings"]
     }
 }
+
 
 let decisionTime = false;
 let storyArray = [];
