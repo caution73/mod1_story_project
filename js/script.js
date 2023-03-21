@@ -54,12 +54,7 @@ class Story {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
-        this.choices = { atWoodenDoorChoices : [{prompt : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
-                                                            "What do you do next?"]},
-                                                {options : ["Knock on the wooden door.",
-                                                            "Walk left, toward the neighbor's house and the dead end.",
-                                                            "Walk right, toward the alley and merchant."]}]
-        }
+        
         
         this.scripts = {
             introScript : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
@@ -111,7 +106,14 @@ class Story {
                 "YOU WON!!!",
                 "Congratulations! But beware...this story may not play out how you think next time..."]]
             }
-            
+        
+        }
+        this.choices = { atWoodenDoorChoices : [{prompt : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
+                                                            "What do you do next?"]},
+                                                {options : ["Knock on the wooden door.",
+                                                            "Walk left, toward the neighbor's house and the dead end.",
+                                                            "Walk right, toward the alley and merchant."]},
+                                                { nexts : [this.scripts.atWoodenDoorScript]}]
         }
         
          
@@ -119,6 +121,8 @@ class Story {
     }
     tellStory(storyArray){
         messageActive = true;
+        messageBox.style.visibility = "visible";
+        nextBtn.style.visibility = "visible";
         this.updateMessageDiv(storyArray[0])
         if (storyArray.length === 0){  // If all array messages have been removed...
             messageActive = false;
@@ -148,7 +152,6 @@ class Story {
                 option.textContent = choicesVar[i];  //  Then give that li element the corresponding text content.
                 optionList.append(option);  //   Add the li element to the ol in the choicesDisplay div.
             }
-            //choiceDisplay.textContent = ;  //   Put the choices text in the choiceDisplay.
             decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
         }
         promptVar.shift()  // 
@@ -240,8 +243,15 @@ buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     if(evnt.target.className === "button" && decisionTime === true){
         console.log("clicked button")
+        // make promptVar and choicesVar equal to li's attached prompt info
+        promptVar = gameName.choices.atWoodenDoorChoices[0].prompt;
+        optionList.textContent = "";
+        decisionTime = false;
+        storyArray = gameName.choices.atWoodenDoorChoices[2].nexts[0]
+        return gameName.tellStory(storyArray)
     }
 })
+
 
 
 
