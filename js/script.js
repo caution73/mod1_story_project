@@ -133,17 +133,15 @@ class Story {
     }
 
     presentChoices(){
-        console.log("printing choiceList from presentChoices()")
-        console.log(choicesVar)
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateMessageDiv(promptVar[0])
         if (promptVar.length === 0){  // If all array messages have been removed...
-            messageActive = false;
+            messageActive = false;   // Hide the message box.
             messageBox.style.visibility = "hidden";
             nextBtn.style.visibility = "hidden";
-            choiceDisplay.textContent = choicesVar;
+            choiceDisplay.textContent = choicesVar;  //   Put the choices text in the choiceDisplay.
             console.log(choiceDisplay.textContent)
         }
         promptVar.shift()
@@ -159,21 +157,21 @@ class Story {
         console.log("Starting the game.")
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        promptVar = newStory.choices.atWoodenDoorChoices[0].prompt
-        choicesVar = newStory.choices.atWoodenDoorChoices[1].options
-        storyArray = newStory.scripts.introScript
-        newStory.tellStory(storyArray)
+        promptVar = gameName.choices.atWoodenDoorChoices[0].prompt
+        choicesVar = gameName.choices.atWoodenDoorChoices[1].options
+        storyArray = gameName.scripts.introScript
+        gameName.tellStory(storyArray)
 
     }
     reset(){
         console.log("resetting the game")
-        promptVar = [];
-        storyArray = [];
-        choicesVar = [];
-        messageBox.textContent = "";
-        choiceDisplay.textContent = "";
-        gamecount++
-        gameName = "Game" + gamecount
+        promptVar = [" "];
+        storyArray = [" "];
+        choicesVar = [" "];
+        messageText.textContent = [" "];
+        choiceDisplay.textContent = [" "];
+        gameCount++
+        gameName = "Game" + gameCount
         console.log(gameName)
         gameName = new Story()
         console.log(gameName)
@@ -206,26 +204,26 @@ let storyArray = [];
 let gameName = "game"
 let next = true;
 let messageActive = false;
-let gamecount = 0;
+let gameCount = 0;
 //let nextChoices = "";
 let promptVar = []
 let choicesVar = []
 
 
-const newStory = new Story()
+gameName = new Story()
 
-nextScene = newStory.scripts.introScript
+nextScene = gameName.scripts.introScript
 
-newStory.startGame()
+gameName.startGame()
 
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    newStory.reset()
+    gameName.reset()
 })
 
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    return newStory.tellStory(storyArray)
+    return gameName.tellStory(storyArray)
 })
 
 

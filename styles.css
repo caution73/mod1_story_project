@@ -102,10 +102,11 @@ main {
 
 .choicesDisplay {
     background-color: black;
-    width: 37vw;
+    width: 35vw;
     align-self: center;
     color: greenyellow;
     font-size: 3vh;
+    padding: 2vh;
     
 }
 
