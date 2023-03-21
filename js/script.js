@@ -39,10 +39,11 @@ const choiceDisplay = document.querySelector(".choicesDisplay")
 const artWindow = document.querySelector(".artWindow")
 const nextBtn = document.querySelector(".next")
 const resetBtn = document.querySelector(".reset")
-const btn1 = document.querySelector("button1")
-const btn2 = document.querySelector("button2")
-const btn3 = document.querySelector("button3")
-const btn4 = document.querySelector("button4")
+const buttons = document.querySelector(".buttons")
+const btn1 = document.getElementById("button1")
+const btn2 = document.getElementById("button2")
+const btn3 = document.getElementById("button3")
+const btn4 = document.getElementById("button4")
 
 
 
@@ -142,6 +143,7 @@ class Story {
             messageBox.style.visibility = "hidden";
             nextBtn.style.visibility = "hidden";
             choiceDisplay.textContent = choicesVar;  //   Put the choices text in the choiceDisplay.
+            decisionTime = true;
             console.log(choiceDisplay.textContent)
         }
         promptVar.shift()
@@ -170,19 +172,18 @@ class Story {
         choicesVar = [" "];
         messageText.textContent = [" "];
         choiceDisplay.textContent = [" "];
+        decisionTime = false;
         gameCount++
         gameName = "Game" + gameCount
         console.log(gameName)
         gameName = new Story()
         console.log(gameName)
-        this.startGame()
+        return this.startGame()
 
     }
     updateInventory(){
 
     }
-
-    
 }
 
 
@@ -200,6 +201,7 @@ class Player {
     }
 }
 
+let decisionTime = false;
 let storyArray = [];
 let gameName = "game"
 let next = true;
@@ -226,6 +228,12 @@ nextBtn.addEventListener("click", (evnt) => {
     return gameName.tellStory(storyArray)
 })
 
+buttons.addEventListener("click", (evnt) => {
+    evnt.preventDefault()
+    if(evnt.target.className === "button" && decisionTime === true){
+        console.log("clicked button")
+    }
+})
 
 
 
@@ -242,12 +250,6 @@ import time
 import random
 
 inventory = []  # a list of the items that the player has on their person.
-
-
-def print_pause(message, seconds):  # print a message, then pause.
-    print(message)
-    time.sleep(seconds)
-
 
 def valid_input(attempt_count, prompt, options):
     while True:
