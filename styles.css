@@ -87,6 +87,12 @@ main {
     width: 30%;
 }
 
+.inventory > * {
+    list-style-type: none;
+    font-size: 4vh;
+    height: 5vh;
+}
+
 .decisions {
     background-color: darkslategray;
     width: 40%;

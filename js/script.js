@@ -33,7 +33,8 @@ const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
 
-const messageBox = document.querySelector(".storyMessage p")
+const messageBox = document.querySelector(".storyMessage")
+const messageText = document.querySelector(".storyMessage p")
 const choices = document.querySelector(".choiceDisplay")
 const artWindow = document.querySelector(".artWindow")
 const nextBtn = document.querySelector(".next")
@@ -46,13 +47,15 @@ const btn4 = document.querySelector("button4")
 let next = true;
 let messageActive = false;
 
+
 class Story {
     constructor() {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
         this.choices = []
-        this.introScript = ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
+        this.scripts = {
+            introScript : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
                             "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
                             "You take a swig of water from your canteen and observe your surroundings.",
                             "With the door in front of you, the street stretches out in opposite directions to both sides, lined with tudor-style homes that had no room to breathe on either side.",
@@ -61,30 +64,72 @@ class Story {
                             "To your right, the moonlit street leads to the town center.",
                             "With no streetlamps, the road fades into the dim light several hundred yards away, just beyond an ominous-looking alleyway adjacent to a small merchant's shop.",
                             "You quickly check your belt, making sure that your sword is at the ready and your cord for binding the target's hands is easily accessible.",
-                            "You've captured enough bounty targets to know that you can never be too prepared."]
-        this.atWoodenDoorScript = ["You take a deep breath and knock on the door.",
-                                    "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
-                                    "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
-                                    "In the following seconds of awkward silence, you quickly take in what you see behind him.",
-                                    "The furniture is falling apart and everything is covered in filth.",
-                                    "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
-                                    "The {pet} inside, sensing the tension, stares back at you.",
-                                    "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]
+                            "You've captured enough bounty targets to know that you can never be too prepared."],
+            atWoodenDoorScript : ["You take a deep breath and knock on the door.",
+                                "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                                "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                                "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                                "The furniture is falling apart and everything is covered in filth.",
+                                "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                                "The {pet} inside, sensing the tension, stares back at you.",
+                                "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."],
+            targetNeighbor : {
+                atWoodenDoor: [['Bob is my neighbor. He doesn\'t live here," he says, placing the end of his club on the floor, then leaning on it like a cane.',
+                '"He lives just next door. I think he\'s over there now."',
+                "The {guy} also mentions that Bob rarely answers his door, but that sometimes he leaves the back door in the alley unlocked.",
+                "You thank him for his help and he shuts the door as you step back out onto the street."], 
+                ["You knock on the wooden door, and seconds later you're greeted once more by the {guy}.",
+                '"I\'m sorry. I don\'t know how else I can help," he says.',
+                "You apologize for bothering him and he shuts the door."]]
+            },
+            targetGuy : {
+                atWoodenDoor: [["\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
+                "You unsheath your sword and raise it to block as the {guy} takes a massive swing at you.",
+                "The club makes contact with your sword, but it hits with such force that your block gives way.",
+                "You stagger backward. Maybe this foe is more than your sword can handle alone.",
+                '"Let that be a lesson to you! Tell your boss that Bob sends his regards!" Bob yells as he gestures to himself.',
+                "Bob slams the door, leaving you feeling defeated out on the street.",
+                "Maybe the merchant has additional weaponry that could be of use?"],
+                ["You knock on the wooden door...again.",
+                "The door swings open and Bob, fuming, raises his club.",
+                '"I told you to leave!!! You won\'t be walking away this time!!!" he shouts.'],
+                ["He lunges forward and takes a mighty swing.", 
+                "You do your best to dodge the incoming club, but you just can't move fast enough...", 
+                "The club hits you in the head. Everything goes dark...",
+                "...", "YOU LOSE!!!", "Next time, do better."],
+                ["He takes a mighty swing, but his club glances off your shield as you thrust your sword forward, stopping just inches from his throat.",
+                "Shocked, Bob drops his club and raises his hands slowly, surrendering to his captor.",
+                "You bind his hands and pull him out into the street.",
+                "Your journey to return Bob to the client has only just begun...",
+                "YOU WON!!!",
+                "Congratulations! But beware...this story may not play out how you think next time..."]]
+            }
+            
+        }
+        
+         
 
     }
     tellStory(storyArray){
         messageActive = true;
         const messageArray = storyArray;
         this.updateMessageDiv(messageArray[0])
-        messageArray.shift()
-        if (messageArray.length === 0){
+        if (messageArray.length === 0){  // If all array messages have been removed...
             messageActive = false;
+            messageBox.style.display = "none";
+            nextBtn.style.display = "none";
+            
         }
+        messageArray.shift()
        
 
     }
     updateMessageDiv(message){
-        messageBox.textContent = message;
+        messageText.textContent = message;
+    }
+
+    presentChoices(choiceList){
+        choices.textContent = choiceList;
     }
 
     updateArt(image){
@@ -106,6 +151,8 @@ class Story {
     
 }
 
+
+
 class Guy {
     constructor(){
         this.type = ""
@@ -123,6 +170,8 @@ class Player {
 
 const newStory = new Story()
 
+let nextScene = newStory.scripts.introScript
+
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     newStory.reset()
@@ -130,7 +179,7 @@ resetBtn.addEventListener("click", (evnt) => {
 
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    return newStory.tellStory(newStory.introScript)
+    return newStory.tellStory(nextScene)
 })
 
 
@@ -311,37 +360,12 @@ def knock_wooden_door(guy, pet, target):
         print messages
         inventory.append("been_to_wooden_door")
         if target == guy:
-            print_pause("\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, "
-                        "grabbing the club and brandishing it "
-                        "menacingly.", 4)
-            print_pause("You unsheath your sword and raise it to block "
-                        f"as the {guy} takes a massive swing at you.", 4)
-            print_pause("The club makes contact with your sword, but "
-                        "it hits with such force that your block gives "
-                        "way.", 4)
-            print_pause("You stagger backward. Maybe this foe is more "
-                        "than your sword can handle alone.", 3)
-            print_pause('"Let that be a lesson to you! Tell your boss '
-                        'that Bob sends his regards!" Bob yells as he '
-                        'gestures to himself.', 4)
-            print_pause("Bob slams the door, leaving you feeling "
-                        "defeated out on the street.", 3)
-            print_pause("Maybe the merchant has additional weaponry "
-                        "that could be of use?\n", 3)
+            print messages
             inventory.append("guy_is_bob")
             inventory.append("need_shield")
             return at_door(guy, pet, target)
         elif target == "neighbor":
-            print_pause('"Bob is my neighbor. He doesn\'t live here," '
-                        "he says, placing the end of his club on the "
-                        "floor, then leaning on it like a cane.", 4)
-            print_pause('"He lives just next door. I think he\'s '
-                        'over there now."', 2)
-            print_pause(f"The {guy} also mentions that Bob rarely "
-                        "answers his door, but that sometimes he "
-                        "leaves the back door in the alley unlocked.", 4)
-            print_pause("You thank him for his help and he shuts "
-                        "the door as you step back out onto the street.\n", 3)
+            print messages
             inventory.append("neighbor_is_bob")
             return at_door(guy, pet, target)
         elif target == pet:
@@ -371,33 +395,10 @@ def knock_wooden_door(guy, pet, target):
             return run_from_pet(guy, pet, target)
     else:
         if "guy_is_bob" in inventory:
-            print_pause("You knock on the wooden door...again.", 2)
-            print_pause("The door swings open and Bob, fuming, raises "
-                        "his club.", 2)
-            print_pause('"I told you to leave!!! You won\'t be walking '
-                        'away this time!!!" he shouts.', 3)
-            if "shield" in inventory:
-                print_pause("He takes a mighty swing, but his club "
-                            "glances off your shield as you thrust your "
-                            "sword forward, stopping just inches from "
-                            "his throat.", 3)
-                print_pause("Shocked, Bob drops his club and raises his "
-                            "hands slowly, surrendering to his captor.", 3)
-                print_pause("You bind his hands and pull him out into the "
-                            "street. Your journey to return Bob to the client "
-                            "has only just begun...\n\n", 3)
-                print_pause("YOU WON!!!", 2)
-                print_pause("Congratulations! But beware...this story may not "
-                            "play out how you think next time...", 4)
+           print messages
                 after_game()
             else:
-                print_pause("He lunges forward and takes a mighty swing.", 2)
-                print_pause("You do your best to dodge the incoming club, but "
-                            "you just can't move fast enough...", 3)
-                print_pause("The club hits you in the head. Everything goes "
-                            "dark...\n\n", 4)
-                print_pause("YOU LOSE!!!", 2)
-                print_pause("Next time, do better.", 2)
+               print messages
                 return after_game()
         elif "pet_is_bob" in inventory:
             if "net" in inventory:
