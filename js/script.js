@@ -46,6 +46,7 @@ const btn4 = document.querySelector("button4")
 
 let next = true;
 let messageActive = false;
+let gamecount = 0;
 
 
 class Story {
@@ -118,7 +119,7 @@ class Story {
             messageActive = false;
             messageBox.style.display = "none";
             nextBtn.style.display = "none";
-            
+
         }
         messageArray.shift()
        
@@ -142,6 +143,11 @@ class Story {
     }
     reset(){
         console.log("resetting the game")
+        gamecount++
+        let gameName = "game" + gamecount
+        console.log(gameName)
+        gameName = new Story()
+        console.log(gameName)
 
     }
     updateInventory(){
