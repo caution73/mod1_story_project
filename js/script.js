@@ -56,6 +56,24 @@ class Story {
         this.target = this.guy
         
         this.locations = {
+            intro : {
+                script : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
+                "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
+                "You take a swig of water from your canteen and observe your surroundings.",
+                "With the door in front of you, the street stretches out in opposite directions to both sides, lined with tudor-style homes that had no room to breathe on either side.",
+                "To your left, the street barely continues for a dozen yards before ending abruptly at the interior of the city wall.",
+                "A single, lonely door and a dimly lit window in the neighboring home are all that there is to see here.",
+                "To your right, the moonlit street leads to the town center.",
+                "With no streetlamps, the road fades into the dim light several hundred yards away, just beyond an ominous-looking alleyway adjacent to a small merchant's shop.",
+                "You quickly check your belt, making sure that your sword is at the ready and your cord for binding the target's hands is easily accessible.",
+                "You've captured enough bounty targets to know that you can never be too prepared."],
+                prompts : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
+                "What do you do next?"],
+                choices : ["Knock on the wooden door.",
+                "Walk left, toward the neighbor's house and the dead end.",
+                "Walk right, toward the alley and merchant."],
+                nexts : ["this.locations.atWoodenDoor[0].scripts[0].all"]
+            },
             atWoodenDoor : [
                 {scripts : [
                     {all : ["You take a deep breath and knock on the door.",
@@ -85,9 +103,13 @@ class Story {
                     "You bind his hands and pull him out into the street.",
                     "Your journey to return Bob to the client has only just begun...",
                     "YOU WON!!!",
-                    "Congratulations! But beware...this story may not play out how you think next time..."]]}]},
-                {prompts : []},
-                {choices : []}
+                    "Congratulations! But beware...this story may not play out how you think next time..."]]}
+                ]},
+                {prompts : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
+                "What do you do next?"]},
+                {choices : ["Knock on the wooden door.",
+                "Walk left, toward the neighbor's house and the dead end.",
+                "Walk right, toward the alley and merchant."]}
         ]},
                        
         this.scripts = {
@@ -246,7 +268,7 @@ class Player {
     }
 }
 
-
+currentChoices = ""  // Use this to pass objects containing next storyArray, next Choices, next prompt?
 let decisionTime = false;
 let storyArray = [];
 let gameName = "game"
@@ -260,7 +282,7 @@ let choicesVar = []
 
 gameName = new Story()
 
-nextScene = gameName.scripts.introScript
+//nextScene = gameName.locations.
 
 gameName.startGame()
 
@@ -283,6 +305,7 @@ buttons.addEventListener("click", (evnt) => {
         optionList.textContent = "";
         decisionTime = false;
         storyArray = gameName.choices.atWoodenDoorChoices[2].nexts[0]
+        //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
         return gameName.tellStory(storyArray)
     }
 })
@@ -299,31 +322,7 @@ buttons.addEventListener("click", (evnt) => {
 
        Python Code
 
-import time
-import random
 
-inventory = []  # a list of the items that the player has on their person.
-
-def valid_input(attempt_count, prompt, options):
-    while True:
-        option = input(prompt).lower()
-        if option in options:
-            return option
-        else:
-            attempt_count += 1
-            if attempt_count == 3:
-                print_pause("\nOh, okay. You're not going to take this "
-                            "seriously... Fine. You had ONE job.", 4)
-                print_pause("You know what? I'm kicking you out...\n", 4)
-                exit(0)
-            elif attempt_count == 2:
-                print_pause("\nWoah, bud. You've gotta get a hold "
-                            "of your typing fingers, there.", 3)
-                print_pause("They're out of control! "
-                            "Alright, let's try one more time.\n", 2)
-            else:
-                print_pause("\nI'm sorry, I didn't get that. Let's "
-                            "try again.\n", 2)
 
 
 def play_game():
