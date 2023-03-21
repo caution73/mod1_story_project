@@ -35,7 +35,7 @@ const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 
 const messageBox = document.querySelector(".storyMessage")
 const messageText = document.querySelector(".storyMessage p")
-const choices = document.querySelector(".choiceDisplay")
+const choiceDisplay = document.querySelector(".choiceDisplay")
 const artWindow = document.querySelector(".artWindow")
 const nextBtn = document.querySelector(".next")
 const resetBtn = document.querySelector(".reset")
@@ -44,10 +44,7 @@ const btn2 = document.querySelector("button2")
 const btn3 = document.querySelector("button3")
 const btn4 = document.querySelector("button4")
 
-let next = true;
-let messageActive = false;
-let gamecount = 0;
-let nextScene = "";
+
 
 
 class Story {
@@ -55,12 +52,13 @@ class Story {
         this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
-        //this.choices = { atWoodenDoorChoices : {prompts : ["You stand in front of the wooden door, the address that you were told to find Bob.", 
-          //                                                  "What do you do next?"]},
-            //                                    {options : ["1. Knock on the wooden door.",
-              //                                              "2. Walk left, toward the neighbor's house and the dead end.",
-                //                                            "3. Walk right, toward the alley and merchant."]}
-   // }
+        this.choices = { atWoodenDoorChoices : [{prompt : ["You stand in front of the wooden door, the address that you were told to find Bob.", 
+                                                            "What do you do next?"]},
+                                                {options : ["1. Knock on the wooden door.",
+                                                            "2. Walk left, toward the neighbor's house and the dead end.",
+                                                            "3. Walk right, toward the alley and merchant."]}]
+        }
+        
         this.scripts = {
             introScript : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
                             "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
@@ -117,17 +115,16 @@ class Story {
          
 
     }
-    tellStory(storyArray, prompt, nextChoices){
+    tellStory(storyArray){
         messageActive = true;
-        const messageArray = storyArray;
-        this.updateMessageDiv(messageArray[0])
-        if (messageArray.length === 0){  // If all array messages have been removed...
+        this.updateMessageDiv(storyArray[0])
+        if (storyArray.length === 0){  // If all array messages have been removed...
             messageActive = false;
             messageBox.style.display = "none";
             nextBtn.style.display = "none";
-            this.presentChoices(prompt, nextChoices)
+            this.presentChoices()
         }
-        messageArray.shift()
+        storyArray.shift()
        
 
     }
@@ -135,9 +132,12 @@ class Story {
         messageText.textContent = message;
     }
 
-    presentChoices(prompt, choiceList){
-        choices.textContent = choiceList;
-        this.updateMessageDiv(prompt)
+    presentChoices(){
+        console.log("printing choiceList from presentChoices()")
+        console.log(choicesVar)
+        console.log(promptVar)
+        choiceDisplay.textContent = choicesVar;
+        this.updateMessageDiv()
     }
 
     updateArt(image){
@@ -146,12 +146,17 @@ class Story {
 
     }
     startGame(){
+        console.log("Starting the game.")
+        promptVar = newStory.choices.atWoodenDoorChoices[0].prompt
+        choicesVar = newStory.choices.atWoodenDoorChoices[1].options
+        storyArray = newStory.scripts.introScript
+        newStory.tellStory(storyArray)
 
     }
     reset(){
         console.log("resetting the game")
         gamecount++
-        let gameName = "Game" + gamecount
+        gameName = "Game" + gamecount
         console.log(gameName)
         gameName = new Story()
         console.log(gameName)
@@ -179,11 +184,21 @@ class Player {
     }
 }
 
+let storyArray = [];
+let gameName = "game"
+let next = true;
+let messageActive = false;
+let gamecount = 0;
+//let nextChoices = "";
+let promptVar = []
+let choicesVar = []
 
 
 const newStory = new Story()
 
 nextScene = newStory.scripts.introScript
+
+newStory.startGame()
 
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
@@ -192,7 +207,7 @@ resetBtn.addEventListener("click", (evnt) => {
 
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    return newStory.tellStory(nextScene)
+    return newStory.tellStory(storyArray)
 })
 
 
