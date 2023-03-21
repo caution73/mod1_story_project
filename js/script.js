@@ -157,6 +157,8 @@ class Story {
     }
     startGame(){
         console.log("Starting the game.")
+        messageBox.style.visibility = "visible";
+        nextBtn.style.visibility = "visible";
         promptVar = newStory.choices.atWoodenDoorChoices[0].prompt
         choicesVar = newStory.choices.atWoodenDoorChoices[1].options
         storyArray = newStory.scripts.introScript
@@ -165,11 +167,17 @@ class Story {
     }
     reset(){
         console.log("resetting the game")
+        promptVar = [];
+        storyArray = [];
+        choicesVar = [];
+        messageBox.textContent = "";
+        choiceDisplay.textContent = "";
         gamecount++
         gameName = "Game" + gamecount
         console.log(gameName)
         gameName = new Story()
         console.log(gameName)
+        this.startGame()
 
     }
     updateInventory(){
