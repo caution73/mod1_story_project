@@ -36,6 +36,7 @@ const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 const messageBox = document.querySelector(".storyMessage")
 const messageText = document.querySelector(".storyMessage p")
 const choiceDisplay = document.querySelector(".choicesDisplay")
+const optionList = document.querySelector(".choicesDisplay ol")
 const artWindow = document.querySelector(".artWindow")
 const nextBtn = document.querySelector(".next")
 const resetBtn = document.querySelector(".reset")
@@ -55,9 +56,9 @@ class Story {
         this.target = this.guy
         this.choices = { atWoodenDoorChoices : [{prompt : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
                                                             "What do you do next?"]},
-                                                {options : ["1. Knock on the wooden door.",
-                                                            "2. Walk left, toward the neighbor's house and the dead end.",
-                                                            "3. Walk right, toward the alley and merchant."]}]
+                                                {options : ["Knock on the wooden door.",
+                                                            "Walk left, toward the neighbor's house and the dead end.",
+                                                            "Walk right, toward the alley and merchant."]}]
         }
         
         this.scripts = {
@@ -137,16 +138,20 @@ class Story {
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        this.updateMessageDiv(promptVar[0])
+        this.updateMessageDiv(promptVar[0])   // Display the prompt for a decision in the message box.
         if (promptVar.length === 0){  // If all array messages have been removed...
             messageActive = false;   // Hide the message box.
             messageBox.style.visibility = "hidden";
             nextBtn.style.visibility = "hidden";
-            choiceDisplay.textContent = choicesVar;  //   Put the choices text in the choiceDisplay.
-            decisionTime = true;
-            console.log(choiceDisplay.textContent)
+            for(let i = 0; i < choicesVar.length; i++){  //  for each item(option) in choicesVar
+                let option = document.createElement("li");  //  Create an li element 
+                option.textContent = choicesVar[i];  //  Then give that li element the corresponding text content.
+                optionList.append(option);  //   Add the li element to the ol in the choicesDisplay div.
+            }
+            //choiceDisplay.textContent = ;  //   Put the choices text in the choiceDisplay.
+            decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
         }
-        promptVar.shift()
+        promptVar.shift()  // 
         
     }
 
@@ -159,10 +164,10 @@ class Story {
         console.log("Starting the game.")
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        promptVar = gameName.choices.atWoodenDoorChoices[0].prompt
-        choicesVar = gameName.choices.atWoodenDoorChoices[1].options
-        storyArray = gameName.scripts.introScript
-        gameName.tellStory(storyArray)
+        promptVar = gameName.choices.atWoodenDoorChoices[0].prompt  // Prepopulate the promptVar with the first prompts of the story.
+        choicesVar = gameName.choices.atWoodenDoorChoices[1].options  //  Prepopulate the choicesVar with the first choices of the story.
+        storyArray = gameName.scripts.introScript  //  Prepopulate the storyArray with the introduction script.
+        gameName.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
     reset(){
@@ -170,8 +175,11 @@ class Story {
         promptVar = [" "];
         storyArray = [" "];
         choicesVar = [" "];
+        while(optionList.firstChild){
+            optionList.firstChild.remove()
+        }
         messageText.textContent = [" "];
-        choiceDisplay.textContent = [" "];
+        optionList.textContent = [" "];
         decisionTime = false;
         gameCount++
         gameName = "Game" + gameCount
