@@ -109,7 +109,9 @@ class Story {
                 "What do you do next?"]},
                 {choices : ["Knock on the wooden door.",
                 "Walk left, toward the neighbor's house and the dead end.",
-                "Walk right, toward the alley and merchant."]}
+                "Walk right, toward the alley and merchant."]},
+
+
         ]},
                        
         this.scripts = {
