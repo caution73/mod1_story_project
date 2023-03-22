@@ -142,7 +142,7 @@ class Story {
         }}
     }
          
-    /*
+    
     tellStory(storyArray){  // Previous, great code.  Do not delete.
         messageActive = true;
         messageBox.style.visibility = "visible";
@@ -155,7 +155,8 @@ class Story {
             this.presentChoices()
         }
         storyArray.shift()
-       */
+    }
+       /*
     tellStory(storyObject){  // For new object passing structure.
         messageActive = true;
         console.log(storyObject)
@@ -176,10 +177,11 @@ class Story {
         storyArray.shift()  
 
     }
+    */
     updateMessageDiv(message){
         messageText.textContent = message;
     }
-    /*     Previous code, works great. Do not delete.
+    //     Previous code, works great. Do not delete.
     presentChoices(){
         messageActive = true;
         messageBox.style.visibility = "visible";
@@ -199,7 +201,7 @@ class Story {
         promptVar.shift()  // 
         
     }
-    */
+    /*
     presentChoices(){  // New code for object passing structure.
         messageActive = true;
         messageBox.style.visibility = "visible";
@@ -219,7 +221,7 @@ class Story {
         promptVar.shift()  // 
         
     }
-
+*/
     updateArt(image){
         console.log(artWindow)
         artWindow.style.backgroundImage = image;
@@ -229,12 +231,12 @@ class Story {
         console.log("Starting the game.")
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        //promptVar = gameName.choices.atWoodenDoorChoices[0].prompt  // Prepopulate the promptVar with the first prompts of the story.
+        promptVar = gameName.locations.atWoodenDoor.prompts  // Prepopulate the promptVar with the first prompts of the story.
         //choicesVar = gameName.choices.atWoodenDoorChoices[1].options  //  Prepopulate the choicesVar with the first choices of the story.
-        //storyArray = gameName.scripts.introScript  //  Prepopulate the storyArray with the introduction script.
-        storyObject = gameName.locations.intro
-        console.log(gameName.locations.intro.script)
-        gameName.tellStory(storyObject)  // Call the function to start telling the story (intro script).
+        storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
+        //storyObject = gameName.locations.intro
+        console.log(promptVar)
+        gameName.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
     reset(){
@@ -333,7 +335,7 @@ resetBtn.addEventListener("click", (evnt) => {
 
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    return gameName.tellStory(storyObject)
+    return gameName.tellStory(storyArray)
 })
 
 buttons.addEventListener("click", (evnt) => {
