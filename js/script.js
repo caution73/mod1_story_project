@@ -148,8 +148,20 @@ class Story {
                 choices : ["Knock on the wooden door.",
                 "Walk left, toward the neighbor's house and the dead end.",
                 "Walk right, toward the alley and merchant."],
-        }}
+        },
+        merchantStand : [["A homely old man sits, asleep, behind the merchant stand.",
+                        "Your presence startles him awake."],
+                        ["Looking at his wares, you can't think of anything else that you would need right now.",
+                        "It's time to capture Bob and earn your pay!"],
+                        ["You purchase a lockpick from him. Conveniently, you already know how to use it."],
+                        ["You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% {pet}!"],
+                        ["You buy a sturdy oak shield from him. This will surely help deflect Bob's swinging club!"]]
+        
     }
+}
+
+                                    
+
          
     
     tellStory(storyArray){  // Previous, great code.  Do not delete.
@@ -284,16 +296,30 @@ class Player {
                 });
                 this.notes.push("Visited Bob's supposed address.")
                 this.notes.push("Bob is a " + gameName.guy + ".")
+                this.notes.push("Could use something to block Bob's club.")
                 gameName.tellStory(storyArray)
             }else if(gameName.target === gameName.pet){
                 console.log("A2")
-                storyArray = gameName.locations.atWoodenDoor.scripts[0].petTarget[0]
-                gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[0])
+                storyArray = gameName.locations.atWoodenDoor.petTarget[0]
+                gameName.tellStory(storyArray)
             }else{
                 console.log("A3")
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
             }
         }
+    }
+    visitMerchantStand(){
+        storyArray = gameName.locations.merchantStand[0];
+        console.log(gameName.locations.merchantStand[0])
+        console.log("M")
+        if(this.notes.includes("Could use something to block Bob's club.")){
+            gameName.locations.merchantStand[4].forEach(sentence => {
+                storyArray.push(sentence);
+            });
+            this.inventory.push("Shield")
+            gameName.tellStory(storyArray)
+        }
+
     }
 }
 
@@ -339,6 +365,7 @@ buttons.addEventListener("click", (evnt) => {
             console.log("clicked btn2")
         }else if(evnt.target.id === "button3"){
             console.log("clicked btn3")
+            player.visitMerchantStand()
         }else{
             console.log("clicked btn4")
          } 
@@ -416,17 +443,7 @@ def at_door(guy, pet, target):  # Player choices from in front of door.
                               ['1', '2', '3'])
 */
 
-  /*  
-    if door_choice == "1":
-        return knock_wooden_door(guy, pet, target)
-    elif door_choice == "2":
-        print_pause("\nYou turn to your left and meander "
-                    "down the street.", 2)
-        return toward_dead_end(guy, pet, target)
-    else:
-        print_pause("\nYou turn to your right and head in the "
-                    "direction of the alley and the merchant.\n", 3)
-        return merchant_or_alley(guy, pet, target)
+/*
 
 
 def toward_dead_end(guy, pet, target):
