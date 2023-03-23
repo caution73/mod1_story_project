@@ -49,6 +49,7 @@ const btn2 = document.getElementById("button2")
 const btn3 = document.getElementById("button3")
 const btn4 = document.getElementById("button4")
 const inventory = document.getElementById("inventoryList")
+const notesUl = document.querySelector(".notesUl")
 
 
 
@@ -112,21 +113,21 @@ class Story {
                 petTarget : [["...",
                 "He chuckles as he grabs his club from the table.",
                 '" \'Bob\', you say? Go ahead and take him!"',
-                `"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the ${this.pet} sitting innocently in the cage."`,
+                `"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the ${this.pet} sitting innocently in the cage.`,
                 "You look at 'Bob'.", "Bob stares back.",
-                `"A growl rises from deep within the ${this.pet}'s throat, and Bob starts slowly making his way out of the cage, eyes locked on you the entire time."`,
-                `"Wait...${this.pet}s can growl?  Yes....yes they can."`,
+                `A growl rises from deep within the ${this.pet}'s throat, and Bob starts slowly making his way out of the cage, eyes locked on you the entire time.`,
+                `Wait...${this.pet}s can growl?`, "Yes....yes they can.",
                 "Bob leaps from the cage and attacks you! You wave your sword back and forth, hoping to land a strike as Bob darts about, nipping at any part of you that gets close enough.",
                 "You look for an escape. The dead-end street to your left offers no safety, so you take off running to the right, toward the merchant and alleyway.",
-                `"You hear the savage ${this.pet} at your heels."`], 
+                `You hear the savage ${this.pet} at your heels.`], 
                 ["With your net at the ready, you knock on the door once more and step to the side, hiding out of view against the side of the house.",
-                `"The door opens and the ${this.pet} flies out into the street, clearly still enraged from your previous encounter."`,
+                `The door opens and the ${this.pet} flies out into the street, clearly still enraged from your previous encounter.`,
                 "You leap forward and scoop up Bob with the net!",
-                `"You wrap up the top of the net to make sure the squirming ${this.pet} won't be able to get out as the ${this.guy} watches from his doorway."`,
+                `You wrap up the top of the net to make sure the squirming ${this.pet} won't be able to get out as the ${this.guy} watches from his doorway.`,
                 "He gives you a nod of appreciation as you start off, beginning the long journey back home where your bounty awaits!",
                 "...", "YOU WON!!!", "Congratulations! But beware...this story may not play out how you think it will next time..."], 
                 ["You knock on the door once more, holding your sword in a defensive position, prepared for whatever Bob may do this time.",
-                "The door swings open...as if by no one. The {guy} is nowhere to be seen.",
+                `The door swings open...as if by no one. The ${this.guy} is nowhere to be seen.`,
                 "But wait...  There....", "There, on the floor... It's...",
                 "BOB", `Bob the ${this.pet} stares at you directly in the eyes...`,
                 "You feel an overwhelming sense of despair, losing your grip on the sword.",
@@ -181,7 +182,8 @@ class Story {
                     "The door is unlocked, lucky you!",
                     "The door bursts open and within seconds all you see are teeth.",
                     "...", "I guess that WAS a wolf...",
-                    "...", "YOU LOSE!!!  You were eaten by a wolf."]]
+                    "...", "YOU LOSE!!!  You were eaten by a wolf."]],
+        fleeing : [[]]
         
     }
 }
@@ -190,7 +192,7 @@ class Story {
 
          
     
-    tellStory(storyArray){  // Previous, great code.  Do not delete.
+    tellStory(storyArray){  // 
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
@@ -235,7 +237,16 @@ class Story {
     }
     
     presentChoices(){
+        if(gameOver){
+            return gameName.afterGame()
+        }
         messageActive = true;
+        notesUl.textContent = "NOTES"
+        player.notes.forEach(item => {  //  for each item(option) in choicesVar
+            let itemLi = document.createElement("li");  //  Create an li element 
+            itemLi.textContent = item;  //  Then give that li element the corresponding text content.
+            notesUl.append(itemLi);  //   Add the li element to the ol in the choicesDisplay div.
+        })
         console.log(storyArray)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
@@ -301,17 +312,16 @@ class Story {
         });
     }
     afterGame(){
+        let playAgain = window.confirm("Click 'OK' to play again. Click 'Cancel' to quit.")
+        if(playAgain){
+            this.reset()
+        }
+        
     }
 }
-
-
-
-class Guy {
-    constructor(){
-        this.type = ""
-    }
-}
-
+//////////////                ///////////////////////////////////////////////
+//////////////  Player Class  ////////////////////////////////////////////////
+//////////////                ///////////////////////////////////////////////
 class Player {
     constructor(){
         this.name = ""
@@ -330,24 +340,27 @@ class Player {
                     gameName.locations.atWoodenDoor.scripts[1].guyTarget[3].forEach(sentence => {
                         storyArray.push(sentence);
                     });
-                    skipChoices = true;
+                    gameOver = true;
                     gameName.tellStory(storyArray)
                 }else{
                     console.log("B1b")
                     gameName.locations.atWoodenDoor.scripts[1].guyTarget[2].forEach(sentence => {
                         storyArray.push(sentence);
                     });
-                    skipChoices = true;
+                    gameOver = true;
                     gameName.tellStory(storyArray)
                 }
             }else if(this.notes.includes("Bob is a " + gameName.pet + ".")){
                 console.log("B2")
                 if(this.inventory.includes("Net")){
                     console.log("B2a")
-                    gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[1])
+                    gameName.updateStoryArray(gameName.locations.atWoodenDoor.petTarget[1])
+                    gameName.tellStory(storyArray)
                 }else{
                     console.log("B2b")
-                    gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[2])
+                    gameName.updateStoryArray(gameName.locations.atWoodenDoor.petTarget[2])
+                    gameOver = true;
+                    gameName.tellStory(storyArray)
                 }
                     
             }else{
@@ -373,6 +386,8 @@ class Player {
                 gameName.locations.atWoodenDoor.petTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
+                this.notes.push("Bob is a " + gameName.pet + ".")
+                this.notes.push("Could use something to trap Bob with...")
                 return gameName.tellStory(storyArray)
             }else{
                 console.log("A3")
@@ -393,21 +408,30 @@ class Player {
                 storyArray.push(sentence);
             });
             this.inventory.push("Shield")
+            let shieldLi = document.createElement("li");  //  Create an li element 
+            shieldLi.textContent = "Sturdy Oak Shield";  //  Then give that li element the corresponding text content.
+            inventory.append(shieldLi)
             this.notes.splice(this.notes.indexOf("Could use something to block Bob's club."))
-            console.log(this.inventory)
-            console.log(this.notes)
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("Could use something to trap Bob with...")){
             gameName.locations.merchantStand[3].forEach(sentence => {
                 storyArray.push(sentence);
         });
             this.inventory.push("Net")
+            let netLi = document.createElement("li");  //  Create an li element 
+            netLi.textContent = "Animal Trapper's Net";  //  Then give that li element the corresponding text content.
+            inventory.append(netLi)
+            this.notes.splice(this.notes.indexOf("Could use something to trap Bob with..."))
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("I need something to help me open that door...")){
             gameName.locations.merchantStand[2].forEach(sentence => {
                 storyArray.push(sentence);
         });
             this.inventory.push("Lockpick")
+            let lockpickLi = document.createElement("li");  //  Create an li element 
+            shieldLi.textContent = "Lockpick";  //  Then give that li element the corresponding text content.
+            inventory.append(lockpickLi)
+            this.notes.splice(this.notes.indexOf("I need something to help me open that door..."))
             return gameName.tellStory(storyArray)
 
         }else{
@@ -424,14 +448,7 @@ class Player {
         gameName.tellGrippingStory(storyArray)
         //gameName.tellStory(storyArray)     
         console.log(storyArray)
-//alley function sets story array
-//starts impDiv
-//sends array through impDiv
-//impDiv button is used, rather than next
-//impDiv button closes div and reopens with new sentence, each time
-//final impdiv button calls window.confirm
-//if ok,
- // call tellStory with end text.          
+   
 
     }
     visitNeighborFront(){
@@ -464,6 +481,10 @@ class Player {
     }
 }
 
+//////////////                     ///////////////////////////////////////////////
+//////////////  Global Variables  ////////////////////////////////////////////////
+//////////////                     ///////////////////////////////////////////////
+
 const notes = [];
 let decisionTime = false;
 let storyArray = [];
@@ -471,16 +492,27 @@ let gameName = "game"
 let messageActive = false;
 let gameCount = 0;
 let promptVar = []
-let choicesVar = ["Pay a visit to the house where Bob supposedly resides.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
+let choicesVar = ["Pay a visit to the wooden door, the house your client sent you to for Bob.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
 let place = "woodenDoor"
 let skipChoices = false;
 let choseDeath = false;
+let gameOver = false;
 
+//////////////                   ///////////////////////////////////////////////
+//////////////  Instantiations  ////////////////////////////////////////////////
+//////////////                   ///////////////////////////////////////////////
 
 gameName = new Story()
 const player = new Player()
 
+
+
 gameName.startGame()
+
+
+//////////////                   ///////////////////////////////////////////////
+//////////////  Event Listeners  ////////////////////////////////////////////////
+//////////////                   ///////////////////////////////////////////////
 
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
@@ -519,8 +551,6 @@ impNext.addEventListener("click", (evnt) => {
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     optionList.textContent = "";
-    messageBox.style.visibility = "hidden";
-    nextBtn.style.visibility = "hidden";
     if(evnt.target.className === "button" && decisionTime === true){
         decisionTime = false;
         if(evnt.target.id === "button1"){
@@ -589,9 +619,7 @@ def after_game():
 
 def run_from_pet(guy, pet, target):
     attempt_count = 0
-    print_pause("You bolt down the street, nearly tripping "
-                "over a loose cobblestone as you approach the "
-                "alley entrance.\n", 4)
+    print_pause(4)
     fleeing_choice = valid_input(attempt_count, "Where do you "
                                  "run? Please enter the number "
                                  "of your selection.\n\n1. "
@@ -638,6 +666,5 @@ def run_from_pet(guy, pet, target):
         return after_game()
 
 
-play_game()
 
 */
