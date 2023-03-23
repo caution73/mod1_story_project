@@ -84,7 +84,15 @@ class Story {
                             "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
                             "The {pet} inside, sensing the tension, stares back at you.",
                             "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]},
-                    {guyTarget : [["\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
+                    {guyTarget : [["You take a deep breath and knock on the door.",
+                    "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                    "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                    "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                    "The furniture is falling apart and everything is covered in filth.",
+                    "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                    "The {pet} inside, sensing the tension, stares back at you.",
+                    "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
+                    "\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
                     "You unsheath your sword and raise it to block as the {guy} takes a massive swing at you.",
                     "The club makes contact with your sword, but it hits with such force that your block gives way.",
                     "You stagger backward. Maybe this foe is more than your sword can handle alone.",
@@ -104,7 +112,15 @@ class Story {
                     "Your journey to return Bob to the client has only just begun...",
                     "YOU WON!!!", "Congratulations! But beware...this story may not play out how you think next time..."]]}
                 ],
-                petTarget : [["He chuckles as he grabs his club from the table.",
+                petTarget : [["You take a deep breath and knock on the door.",
+                "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                "The furniture is falling apart and everything is covered in filth.",
+                "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                "The {pet} inside, sensing the tension, stares back at you.",
+                "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
+                "He chuckles as he grabs his club from the table.",
                 '"\'Bob\', you say? Go ahead and take him!"',
                 '"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the {pet} sitting innocently in the cage."',
                 "You look at 'Bob'.", "Bob stares back.",
@@ -127,7 +143,15 @@ class Story {
                 "You stand there, frozen in fear as your sword drops to the stone street, the clanging sound breaking the deadly silence.",
                 "Everything goes dark...", "...", "YOU LOSE. You were devoured by Bob.",
                 "Who knew a {pet} could have such a voracious appetite?"]],
-                neighborTarget : [['Bob is my neighbor. He doesn\'t live here," he says, placing the end of his club on the floor, then leaning on it like a cane.',
+                neighborTarget : [["You take a deep breath and knock on the door.",
+                "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                "In the following seconds of awkward silence, you quickly take in what you see behind him.",
+                "The furniture is falling apart and everything is covered in filth.",
+                "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
+                "The {pet} inside, sensing the tension, stares back at you.",
+                "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
+                '"Bob is my neighbor. He doesn\'t live here," he says, placing the end of his club on the floor, then leaning on it like a cane.',
                 '"He lives just next door. I think he\'s over there now."',
                 "The {guy} also mentions that Bob rarely answers his door, but that sometimes he leaves the back door in the alley unlocked.",
                 "You thank him for his help and he shuts the door as you step back out onto the street."], 
@@ -152,32 +176,13 @@ class Story {
             messageActive = false;
             messageBox.style.visibility = "hidden";
             nextBtn.style.visibility = "hidden";
-            this.presentChoices()
+            if(!skipChoices){
+                this.presentChoices()
+            }
+           
         }
         storyArray.shift()
     }
-       /*
-    tellStory(storyObject){  // For new object passing structure.
-        messageActive = true;
-        console.log(storyObject)
-        promptVar = storyObject.prompts
-        console.log(promptVar)
-        storyArray = storyObject.scripts
-        console.log(storyArray)
-        console.log(storyObject.nexts)
-        messageBox.style.visibility = "visible";
-        nextBtn.style.visibility = "visible";
-        this.updateMessageDiv(storyArray[0])
-        if (storyArray.length === 0){  // If all array messages have been removed...
-            messageActive = false;
-            messageBox.style.visibility = "hidden";
-            nextBtn.style.visibility = "hidden";
-            this.presentChoices()
-        }
-        storyArray.shift()  
-
-    }
-    */
     updateMessageDiv(message){
         messageText.textContent = message;
     }
@@ -186,9 +191,7 @@ class Story {
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        console.log(nextBtn.style.visibility)
         this.updateMessageDiv("What would you like to do?")   // Display the prompt for a decision in the message box.
-        console.log(messageText.textContent)
         //messageActive = false;   // Hide the message box.
         //messageBox.style.visibility = "hidden";
         nextBtn.style.visibility = "hidden";
@@ -201,27 +204,7 @@ class Story {
         }
         
     
-    /*
-    presentChoices(){  // New code for object passing structure.
-        messageActive = true;
-        messageBox.style.visibility = "visible";
-        nextBtn.style.visibility = "visible";
-        this.updateMessageDiv(promptVar[0])   // Display the prompt for a decision in the message box.
-        if (promptVar.length === 0){  // If all array messages have been removed...
-            messageActive = false;   // Hide the message box.
-            messageBox.style.visibility = "hidden";
-            nextBtn.style.visibility = "hidden";
-            for(let i = 0; i < choicesVar.length; i++){  //  for each item(option) in choicesVar
-                let option = document.createElement("li");  //  Create an li element 
-                option.textContent = choicesVar[i];  //  Then give that li element the corresponding text content.
-                optionList.append(option);  //   Add the li element to the ol in the choicesDisplay div.
-            }
-            decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
-        }
-        promptVar.shift()  // 
-        
-    }
-*/
+  
     updateArt(image){
         console.log(artWindow)
         artWindow.style.backgroundImage = image;
@@ -232,9 +215,8 @@ class Story {
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
-        //storyObject = gameName.locations.intro
-        console.log(promptVar)
-        gameName.tellStory(storyArray)  // Call the function to start telling the story (intro script).
+        console.log(storyArray)
+        this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
     reset(){
@@ -295,10 +277,17 @@ class Player {
             }
         }else{
             storyArray = gameName.locations.atWoodenDoor.scripts[0].all
+            skipChoices = true;
+            console.log("Message should be knocking on door.")
             gameName.tellStory(storyArray)
             if(gameName.target === gameName.guy){
-                gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[0])
+                console.log("It's the guy.")
+                skipChoices = false;
+                storyArray = gameName.locations.atWoodenDoor.scripts[1].guyTarget[0]
+                gameName.tellStory(storyArray)
             }else if(gameName.target === gameName.pet){
+                console.log("It's the pet.")
+                storyArray = gameName.locations.atWoodenDoor.scripts[0].petTarget[0]
                 gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[0])
             }else{
                 console.log(gameName.locations.atWoodenDoor.neighborTarget[0])
@@ -317,8 +306,9 @@ let gameName = "game"
 let messageActive = false;
 let gameCount = 0;
 let promptVar = []
-let choicesVar = ["Pay a visit to house where Bob supposedly resides.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
+let choicesVar = ["Pay a visit to the house where Bob supposedly resides.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
 let place = "woodenDoor"
+let skipChoices = false;
 
 
 gameName = new Story()
@@ -340,9 +330,11 @@ nextBtn.addEventListener("click", (evnt) => {
 
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
+    optionList.textContent = "";
     if(evnt.target.className === "button" && decisionTime === true){
         if(evnt.target.id === "button1"){
             console.log("Clicked btn1")
+            return player.knockOnWoodenDoor()
         }else if(evnt.target.id === "button2"){
             console.log("clicked btn2")
         }else if(evnt.target.id === "button3"){
@@ -353,7 +345,7 @@ buttons.addEventListener("click", (evnt) => {
         console.log("clicked btn")
         // make promptVar and choicesVar equal to li's attached prompt info
         //promptVar = gameName.choices.atWoodenDoorChoices[0].prompt;
-        optionList.textContent = "";
+       
         decisionTime = false;
         //storyArray = gameName.choices
         //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
