@@ -51,7 +51,7 @@ const btn4 = document.getElementById("button4")
 
 class Story {
     constructor() {
-        this.guy = guys[Math.floor(Math.random()*4) + 4] // Fix this
+        this.guy = guys[Math.floor(Math.random()*3)] // Fix this
         this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
         this.target = this.guy
         
@@ -77,15 +77,15 @@ class Story {
             atWoodenDoor : {
                 scripts : [
                     {all : ["You take a deep breath and knock on the door.",
-                            "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
-                            "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
+                            `The door opens wide and you find yourself looking up at a ${this.guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.`,
+                            'You confidently stare him in the eyes and declare, "I\'m looking for Bob. Is this your name?"',
                             "In the following seconds of awkward silence, you quickly take in what you see behind him.",
                             "The furniture is falling apart and everything is covered in filth.",
                             "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
-                            "The {pet} inside, sensing the tension, stares back at you.",
-                            "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]},
+                            `The ${this.pet} inside, sensing the tension, stares back at you.`,
+                            `The ${this.guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.`]},
                     {guyTarget : [["...", "\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
-                    "You unsheath your sword and raise it to block as the {guy} takes a massive swing at you.",
+                    `You unsheath your sword and raise it to block as the ${this.guy} takes a massive swing at you.`,
                     "The club makes contact with your sword, but it hits with such force that your block gives way.",
                     "You stagger backward. Maybe this foe is more than your sword can handle alone.",
                     '"Let that be a lesson to you! Tell your boss that Bob sends his regards!" Bob yells as he gestures to himself.',
@@ -107,29 +107,29 @@ class Story {
                 petTarget : [["...",
                 "He chuckles as he grabs his club from the table.",
                 '"\'Bob\', you say? Go ahead and take him!"',
-                '"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the {pet} sitting innocently in the cage."',
+                `'"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the ${this.pet} sitting innocently in the cage."'`,
                 "You look at 'Bob'.", "Bob stares back.",
-                "A growl rises from deep within the {pet}'s throat, and Bob starts slowly making his way out of the cage, eyes locked on you the entire time.",
-                "Wait...{pet}s can growl?  Yes....yes they can.",
+                `"A growl rises from deep within the ${this.pet}'s throat, and Bob starts slowly making his way out of the cage, eyes locked on you the entire time."`,
+                `"Wait...${this.pet}s can growl?  Yes....yes they can."`,
                 "Bob leaps from the cage and attacks you! You wave your sword back and forth, hoping to land a strike as Bob darts about, nipping at any part of you that gets close enough.",
                 "You look for an escape. The dead-end street to your left offers no safety, so you take off running to the right, toward the merchant and alleyway.",
-                "You hear the savage {pet} at your heels."], 
+                `"You hear the savage ${this.pet} at your heels."`], 
                 ["With your net at the ready, you knock on the door once more and step to the side, hiding out of view against the side of the house.",
-                "The door opens and the {pet} flies out into the street, clearly still enraged from your previous encounter.",
+                `"The door opens and the ${this.pet} flies out into the street, clearly still enraged from your previous encounter."`,
                 "You leap forward and scoop up Bob with the net!",
-                "You wrap up the top of the net to make sure the squirming {pet} won't be able to get out as the {guy} watches from his doorway.",
+                `"You wrap up the top of the net to make sure the squirming ${this.pet} won't be able to get out as the ${this.guy} watches from his doorway."`,
                 "He gives you a nod of appreciation as you start off, beginning the long journey back home where your bounty awaits!",
                 "...", "YOU WON!!!", "Congratulations! But beware...this story may not play out how you think it will next time..."], 
                 ["You knock on the door once more, holding your sword in a defensive position, prepared for whatever Bob may do this time.",
                 "The door swings open...as if by no one. The {guy} is nowhere to be seen.",
                 "But wait...  There....", "There, on the floor... It's...",
-                "BOB", "Bob the {pet} stares at you directly in the eyes...",
+                `"BOB", "Bob the ${this.pet} stares at you directly in the eyes..."`,
                 "You feel an overwhelming sense of despair, losing your grip on the sword.",
                 "You stand there, frozen in fear as your sword drops to the stone street, the clanging sound breaking the deadly silence.",
                 "Everything goes dark...", "...", "YOU LOSE. You were devoured by Bob.",
-                "Who knew a {pet} could have such a voracious appetite?"]],
+                `"Who knew a ${this.pet} could have such a voracious appetite?"`]],
                 neighborTarget : [["You take a deep breath and knock on the door.",
-                "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
+                `"The door opens wide and you find yourself looking up at a ${this.guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him."`,
                 "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
                 "In the following seconds of awkward silence, you quickly take in what you see behind him.",
                 "The furniture is falling apart and everything is covered in filth.",
@@ -140,7 +140,7 @@ class Story {
                 '"He lives just next door. I think he\'s over there now."',
                 "The {guy} also mentions that Bob rarely answers his door, but that sometimes he leaves the back door in the alley unlocked.",
                 "You thank him for his help and he shuts the door as you step back out onto the street."], 
-                ["You knock on the wooden door, and seconds later you're greeted once more by the {guy}.",
+                [`"You knock on the wooden door, and seconds later you're greeted once more by the ${this.guy}."`,
                 '"I\'m sorry. I don\'t know how else I can help," he says.',
                 "You apologize for bothering him and he shuts the door."]],
                 prompts : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
@@ -154,7 +154,7 @@ class Story {
                         ["Looking at his wares, you can't think of anything else that you would need right now.",
                         "It's time to capture Bob and earn your pay!"],
                         ["You purchase a lockpick from him.", "Conveniently, you already know how to use it."],
-                        ["You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% {pet}!"],
+                        [`"You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% ${this.pet}!"`],
                         ["You buy a sturdy oak shield from him.", "This will surely help deflect Bob's swinging club!"]]
         
     }
@@ -210,11 +210,10 @@ class Story {
     }
     startGame(){
         console.log("Starting the game.")
-        console.log(storyArray)
+        console.log(this.guy)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
-        console.log(storyArray)
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
