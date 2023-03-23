@@ -84,15 +84,7 @@ class Story {
                             "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
                             "The {pet} inside, sensing the tension, stares back at you.",
                             "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby."]},
-                    {guyTarget : [["You take a deep breath and knock on the door.",
-                    "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
-                    "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
-                    "In the following seconds of awkward silence, you quickly take in what you see behind him.",
-                    "The furniture is falling apart and everything is covered in filth.",
-                    "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
-                    "The {pet} inside, sensing the tension, stares back at you.",
-                    "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
-                    "\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
+                    {guyTarget : [["...", "\"YOU SHOULDN'T HAVE COME HERE!!!\", he yells, grabbing the club and brandishing it menacingly.",
                     "You unsheath your sword and raise it to block as the {guy} takes a massive swing at you.",
                     "The club makes contact with your sword, but it hits with such force that your block gives way.",
                     "You stagger backward. Maybe this foe is more than your sword can handle alone.",
@@ -112,14 +104,7 @@ class Story {
                     "Your journey to return Bob to the client has only just begun...",
                     "YOU WON!!!", "Congratulations! But beware...this story may not play out how you think next time..."]]}
                 ],
-                petTarget : [["You take a deep breath and knock on the door.",
-                "The door opens wide and you find yourself looking up at a {guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him.",
-                "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
-                "In the following seconds of awkward silence, you quickly take in what you see behind him.",
-                "The furniture is falling apart and everything is covered in filth.",
-                "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
-                "The {pet} inside, sensing the tension, stares back at you.",
-                "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
+                petTarget : [["...",
                 "He chuckles as he grabs his club from the table.",
                 '"\'Bob\', you say? Go ahead and take him!"',
                 '"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the {pet} sitting innocently in the cage."',
@@ -258,39 +243,48 @@ class Player {
     }
     knockOnWoodenDoor(){
         if(this.notes.includes("Visited Bob's supposed address.")){
+            console.log("B")
             if(this.notes.includes("Bob is a " + gameName.guy + ".")){
-                gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[1])
+                console.log("B1")
+                storyArray = gameName.locations.atWoodenDoor.guyTarget[1]
                 if(this.inventory.includes("Shield")){
+                    console.log("B1a")
                     gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[2])
                 }else{
+                    console.log("B1b")
                     gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[3])
                 }
             }else if(this.notes.includes("Bob is a " + gameName.pet + ".")){
+                console.log("B2")
                 if(this.inventory.includes("Net")){
+                    console.log("B2a")
                     gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[1])
                 }else{
+                    console.log("B2b")
                     gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[2])
                 }
                     
             }else{
+                console.log("B3")
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget)
             }
         }else{
             storyArray = gameName.locations.atWoodenDoor.scripts[0].all
-            skipChoices = true;
-            console.log("Message should be knocking on door.")
-            gameName.tellStory(storyArray)
+            console.log("A")
             if(gameName.target === gameName.guy){
-                console.log("It's the guy.")
-                skipChoices = false;
-                storyArray = gameName.locations.atWoodenDoor.scripts[1].guyTarget[0]
+                console.log("A1")
+                gameName.locations.atWoodenDoor.scripts[1].guyTarget[0].forEach(sentence => {
+                    storyArray.push(sentence);
+                });
+                console.log(storyArray)
+                this.notes.push("Visited Bob's supposed address.")
                 gameName.tellStory(storyArray)
             }else if(gameName.target === gameName.pet){
-                console.log("It's the pet.")
+                console.log("A2")
                 storyArray = gameName.locations.atWoodenDoor.scripts[0].petTarget[0]
                 gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[0])
             }else{
-                console.log(gameName.locations.atWoodenDoor.neighborTarget[0])
+                console.log("A3")
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
             }
         }
