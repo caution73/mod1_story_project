@@ -58,7 +58,7 @@ class Story {
         this.locations = {
             intro : {
                 scripts : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
-                "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town so far from home.", 
+                "'This is it,' you mutter to yourself, wondering why you signed up to hunt down some guy named Bob in this small mountain town, so far from home.", 
                 "You take a swig of water from your canteen and observe your surroundings.",
                 "With the door in front of you, the street stretches out in opposite directions to both sides, lined with tudor-style homes that had no room to breathe on either side.",
                 "To your left, the street barely continues for a dozen yards before ending abruptly at the interior of the city wall.",
@@ -186,6 +186,7 @@ class Story {
     
     presentChoices(){
         messageActive = true;
+        console.log(storyArray)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateMessageDiv("What would you like to do?")   // Display the prompt for a decision in the message box.
@@ -209,21 +210,26 @@ class Story {
     }
     startGame(){
         console.log("Starting the game.")
+        console.log(storyArray)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
+        this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
+        console.log(storyArray)
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
     reset(){
         console.log("resetting the game")
-        promptVar = [" "];
-        storyArray = [" "];
+        promptVar = [];
+        storyArray = [];
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
         messageText.textContent = [" "];
-        optionList.textContent = [" "];
+        messageActive = false;
+        optionList.textContent = [" "];  
+        player.inventory = ["Clothes", "Sword", "Binding cord"]
+        player.notes = []
         decisionTime = false;
         skipChoices = false;
         gameCount++
@@ -236,6 +242,11 @@ class Story {
     }
     updateInventory(){
 
+    }
+    updateStoryArray(original){
+        original.forEach(sentence => {
+            storyArray.push(sentence);
+        });
     }
 }
 
@@ -254,11 +265,12 @@ class Player {
         this.notes = []
     }
     knockOnWoodenDoor(){
+        console.log(player.inventory)
         if(this.notes.includes("Visited Bob's supposed address.")){
             console.log("B")
             if(this.notes.includes("Bob is a " + gameName.guy + ".")){
                 console.log("B1")
-                storyArray = gameName.locations.atWoodenDoor.scripts[1].guyTarget[1]
+                gameName.updateStoryArray(gameName.locations.atWoodenDoor.scripts[1].guyTarget[1])
                 if(this.inventory.includes("Shield")){
                     console.log("B1a")
                     gameName.locations.atWoodenDoor.scripts[1].guyTarget[3].forEach(sentence => {
@@ -289,7 +301,7 @@ class Player {
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
             }
         }else{
-            storyArray = gameName.locations.atWoodenDoor.scripts[0].all
+            gameName.updateStoryArray(gameName.locations.atWoodenDoor.scripts[0].all)
             console.log("A")
             if(gameName.target === gameName.guy){
                 console.log("A1")
@@ -302,17 +314,22 @@ class Player {
                 gameName.tellStory(storyArray)
             }else if(gameName.target === gameName.pet){
                 console.log("A2")
-                storyArray = gameName.locations.atWoodenDoor.petTarget[0]
+                gameName.locations.atWoodenDoor.petTarget[0].forEach(sentence => {
+                    storyArray.push(sentence);
+                });
                 gameName.tellStory(storyArray)
             }else{
                 console.log("A3")
-                gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
+                gameName.locations.atWoodenDoor.neighborTarget[0].forEach(sentence => {
+                    storyArray.push(sentence);
+                });
+                gameName.tellStory(storyArray)
             }
         }
     }
     visitMerchantStand(){
-        storyArray = gameName.locations.merchantStand[0];
-        console.log(gameName.locations.merchantStand[0])
+        gameName.updateStoryArray(gameName.locations.merchantStand[0])
+        console.log(storyArray)
         console.log("M")
         if(this.notes.includes("Could use something to block Bob's club.")){
             gameName.locations.merchantStand[4].forEach(sentence => {
@@ -337,14 +354,15 @@ class Player {
             gameName.locations.merchantStand[1].forEach(sentence => {
                 storyArray.push(sentence);
         });
+            console.log(storyArray)
+            console.log(gameName.locations.merchantStand[0])
+            console.log(gameName.locations.intro.scripts)
             return gameName.tellStory(storyArray)
         }
     }
 }
 
 const notes = [];
-let storyObject = ""
-let currentChoices = ""  // Use this to pass objects containing next storyArray, next Choices, next prompt?
 let decisionTime = false;
 let storyArray = [];
 let gameName = "game"
@@ -375,6 +393,7 @@ nextBtn.addEventListener("click", (evnt) => {
 
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
+    console.log(storyArray)
     optionList.textContent = "";
     if(evnt.target.className === "button" && decisionTime === true){
         if(evnt.target.id === "button1"){
