@@ -52,8 +52,9 @@ const btn4 = document.getElementById("button4")
 class Story {
     constructor() {
         this.guy = guys[Math.floor(Math.random()*3)] // Fix this
-        this.pet = pets[Math.floor(Math.random()*4) + 4]// Fix this
-        this.target = this.guy
+        this.pet = pets[Math.floor(Math.random()*10)]// Fix this
+        this.targets = [this.pet, this.guy, "neighbor"]
+        this.target = this.targets[Math.floor(Math.random()*3)]
         
         this.locations = {
             intro : {
@@ -106,8 +107,8 @@ class Story {
                 ],
                 petTarget : [["...",
                 "He chuckles as he grabs his club from the table.",
-                '"\'Bob\', you say? Go ahead and take him!"',
-                `'"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the ${this.pet} sitting innocently in the cage."'`,
+                '" \'Bob\', you say? Go ahead and take him!"',
+                `"He\'s been nothing but trouble ever since I bought him,\" he says, using the club to gesture toward the ${this.pet} sitting innocently in the cage."`,
                 "You look at 'Bob'.", "Bob stares back.",
                 `"A growl rises from deep within the ${this.pet}'s throat, and Bob starts slowly making his way out of the cage, eyes locked on you the entire time."`,
                 `"Wait...${this.pet}s can growl?  Yes....yes they can."`,
@@ -123,24 +124,17 @@ class Story {
                 ["You knock on the door once more, holding your sword in a defensive position, prepared for whatever Bob may do this time.",
                 "The door swings open...as if by no one. The {guy} is nowhere to be seen.",
                 "But wait...  There....", "There, on the floor... It's...",
-                `"BOB", "Bob the ${this.pet} stares at you directly in the eyes..."`,
+                "BOB", `Bob the ${this.pet} stares at you directly in the eyes...`,
                 "You feel an overwhelming sense of despair, losing your grip on the sword.",
                 "You stand there, frozen in fear as your sword drops to the stone street, the clanging sound breaking the deadly silence.",
                 "Everything goes dark...", "...", "YOU LOSE. You were devoured by Bob.",
-                `"Who knew a ${this.pet} could have such a voracious appetite?"`]],
-                neighborTarget : [["You take a deep breath and knock on the door.",
-                `"The door opens wide and you find yourself looking up at a ${this.guy} standing at least two heads taller than you, his silhouette obscuring the lamplight behind him."`,
-                "You confidently stare him in the eyes and declare,'I'm looking for Bob. Is this your name?",
-                "In the following seconds of awkward silence, you quickly take in what you see behind him.",
-                "The furniture is falling apart and everything is covered in filth.",
-                "A cage is perched precariously on top of a bench in the corner, the cage door askew.",
-                "The {pet} inside, sensing the tension, stares back at you.",
-                "The {guy} clears his throat and slowly reaches toward the heavy wooden club resting on the table nearby.", "...",
+                `Who knew a ${this.pet} could have such a voracious appetite?`]],
+                neighborTarget : [["...",
                 '"Bob is my neighbor. He doesn\'t live here," he says, placing the end of his club on the floor, then leaning on it like a cane.',
                 '"He lives just next door. I think he\'s over there now."',
-                "The {guy} also mentions that Bob rarely answers his door, but that sometimes he leaves the back door in the alley unlocked.",
+                `The ${this.guy} also mentions that Bob rarely answers his door, but that sometimes he leaves the back door in the alley unlocked.`,
                 "You thank him for his help and he shuts the door as you step back out onto the street."], 
-                [`"You knock on the wooden door, and seconds later you're greeted once more by the ${this.guy}."`,
+                [`You knock on the wooden door, and seconds later you're greeted once more by the ${this.guy}.`,
                 '"I\'m sorry. I don\'t know how else I can help," he says.',
                 "You apologize for bothering him and he shuts the door."]],
                 prompts : ["...", "You stand in front of the wooden door, the address that you were told to find Bob.", 
@@ -155,7 +149,36 @@ class Story {
                         "It's time to capture Bob and earn your pay!"],
                         ["You purchase a lockpick from him.", "Conveniently, you already know how to use it."],
                         [`"You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% ${this.pet}!"`],
-                        ["You buy a sturdy oak shield from him.", "This will surely help deflect Bob's swinging club!"]]
+                        ["You buy a sturdy oak shield from him.", "This will surely help deflect Bob's swinging club!"]],
+        neighborFront : [["You walk toward the end of the street, turning your attention toward the only thing of any interest at all, the front door to the neighbor's home.",
+                        "You knock, but nobody answers.","You try opening the door, but it's locked."],
+                        ["If only you had the tools to pick the lock..."],
+                        ["No need to cause trouble with the neighbor, is there? We're here for Bob, after all.",
+                        "It's probably best to leave the neighbor alone."],
+                        ["You pull out your new lockpick and skillfully unlock the door.",
+                        "You quickly unsheath your sword and open the door.",
+                        "A small man, the top of his head barely reaching as high as your shoulder, stands up from his chair in the corner of the room.",
+                        "You can hear what sounds like vicious dogs behind a door to a back room.",
+                        '"Are you Bob?" you ask.',
+                        "His face is pale from shock. He clearly wasn't expecting you.",
+                        '"Ye...yes, sir." he stammers, trailing off as he faints.',
+                        "His knees buckle and he falls to the floor.",
+                        "You sigh in disgust as you pick the small man up and drape him over your shoulders.",
+                        "It's going to be a long walk home, but the bounty will be worth it!",
+                        "...", "YOU WON!!!",
+                        "Congratulations! But beware... this story may not play out how you think next time..."]],
+        alleyWay : [["You step into the alleyway, your hand resting on the hilt of your sword.",
+                    "Standing in the alleyway, all you can make out in the dark is a back door to the neighbor's house and various piles of trash and rubble against the alley walls.",       
+                    "You slowly approach the door.","As you're just about to reach out for the handle, the door shakes and a you hear a barrage of barking, growling, and snapping from the other side of the door.",
+                    "Either it's a massive, vicious dog...or it's a massive, equally vicious wolf.", "...",
+                    "What do you want to do? Try to open the door, or leave the alley?"],
+                    ["You knock on the door. Nobody answers...", "but let's be honest, they probably wouldn't hear you over that canine's racket."],
+                    ["You use your better judgement and leave the alley."],
+                    ["Suffering from a severe lack of common sense, you reach out and try to open the door.",
+                    "The door is unlocked, lucky you!",
+                    "The door bursts open and within seconds all you see are teeth.",
+                    "...", "I guess that WAS a wolf...",
+                    "...", "YOU LOSE!!!  You were eaten by a wolf."]]
         
     }
 }
@@ -175,6 +198,8 @@ class Story {
             nextBtn.style.visibility = "hidden";
             if(!skipChoices){
                 this.presentChoices()
+            }else{
+                return // This is new, for alley. If doesn't work, remove.
             }
            
         }
@@ -210,7 +235,7 @@ class Story {
     }
     startGame(){
         console.log("Starting the game.")
-        console.log(this.guy)
+        console.log(gameName)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
@@ -297,17 +322,19 @@ class Player {
                     
             }else{
                 console.log("B3")
-                gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
+                if(this.notes.includes("Bob is the neighbor."))
+                gameName.updateStoryArray(gameName.locations.atWoodenDoor.neighborTarget[1])
+                return gameName.tellStory(storyArray)
             }
         }else{
             gameName.updateStoryArray(gameName.locations.atWoodenDoor.scripts[0].all)
             console.log("A")
+            this.notes.push("Visited Bob's supposed address.")
             if(gameName.target === gameName.guy){
                 console.log("A1")
                 gameName.locations.atWoodenDoor.scripts[1].guyTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
-                this.notes.push("Visited Bob's supposed address.")
                 this.notes.push("Bob is a " + gameName.guy + ".")
                 this.notes.push("Could use something to block Bob's club.")
                 gameName.tellStory(storyArray)
@@ -316,13 +343,14 @@ class Player {
                 gameName.locations.atWoodenDoor.petTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
-                gameName.tellStory(storyArray)
+                return gameName.tellStory(storyArray)
             }else{
                 console.log("A3")
                 gameName.locations.atWoodenDoor.neighborTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
-                gameName.tellStory(storyArray)
+                this.notes.push("Bob is the neighbor.")
+                return gameName.tellStory(storyArray)
             }
         }
     }
@@ -359,6 +387,41 @@ class Player {
             return gameName.tellStory(storyArray)
         }
     }
+    investigateAlley(){
+        gameName.updateStoryArray(gameName.locations.alleyWay[0])
+        skipChoices = true;
+        gameName.updateStoryArray(gameName.locations.alleyWay[1])
+        gameName.tellStory(storyArray)               
+
+    }
+    visitNeighborFront(){
+        console.log("NF")
+        gameName.updateStoryArray(gameName.locations.neighborFront[0])
+        if(this.notes.includes("Bob is the neighbor.")){
+            console.log("NF1")
+            if(this.inventory.includes("Lockpick")){
+                console.log("NF1a")
+                gameName.locations.neighborFront[3].forEach(sentence => {
+                    storyArray.push(sentence);
+                });
+                return gameName.tellStory(storyArray)
+            }else{
+                console.log("NF1b")
+                gameName.locations.neighborFront[1].forEach(sentence => {
+                    storyArray.push(sentence);
+                });
+                this.notes.push("I need something to help me open that door...")
+                return gameName.tellStory(storyArray)
+            }
+        }else{
+            console.log("NF2")
+            gameName.locations.neighborFront[2].forEach(sentence => {
+                storyArray.push(sentence);
+            });
+            return gameName.tellStory(storyArray)
+        }
+
+    }
 }
 
 const notes = [];
@@ -392,25 +455,25 @@ nextBtn.addEventListener("click", (evnt) => {
 
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    console.log(storyArray)
     optionList.textContent = "";
+    messageBox.style.visibility = "hidden";
+    nextBtn.style.visibility = "hidden";
     if(evnt.target.className === "button" && decisionTime === true){
+        decisionTime = false;
         if(evnt.target.id === "button1"){
             console.log("Clicked btn1")
             return player.knockOnWoodenDoor()
         }else if(evnt.target.id === "button2"){
             console.log("clicked btn2")
+            return player.visitNeighborFront()
         }else if(evnt.target.id === "button3"){
             console.log("clicked btn3")
             return player.visitMerchantStand()
         }else{
             console.log("clicked btn4")
+            return player.investigateAlley()
          } 
-        console.log("clicked btn")       
-        decisionTime = false;
-        //storyArray = gameName.choices
-        //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
-        //return player.knockOnWoodenDoor()
+        
         
     }
 })
@@ -418,23 +481,6 @@ buttons.addEventListener("click", (evnt) => {
 
 
 
-/*
-click on choice
-prevent default
-call correllated function for specific choice
-clear choicedisplay
-
-element has associated player function
-click on element
-element calls player function
-player function clears choicedisplay
-player function updates promptVar
-player function updates choicesVar
-player function updates nextVar
-player function calls game tellstory
-
-    
-}
 
 /*
 // =============================================
@@ -443,10 +489,6 @@ player function calls game tellstory
 
        Python Code
 
-
-def intro(guy, pet, target):
-    print yur messages
-    at_door(guy, pet, target)
 
 
 def after_game():
@@ -465,191 +507,8 @@ def after_game():
         exit(0)
 
 
-def at_door(guy, pet, target):  # Player choices from in front of door.
-    attempt_count = 0  # how many times has this loop already been run.
-    print messages
-    door_choice = valid_input(attempt_count, "Please enter the "
-                              "number of your selection.\n\n1. Knock "
-                              "on the wooden door.\n2. Walk left, "
-                              "toward the neighbor's house and the "
-                              "dead end.\n3. Walk right, toward "
-                              "the alley and merchant.\n\n",
-                              ['1', '2', '3'])
-*/
-
-/*
-
-
-def toward_dead_end(guy, pet, target):
-    attempt_count = 0
-    print_pause("You walk toward the end of the street, "
-                "turning your attention toward the only "
-                "thing of any interest at all, the "
-                "front door to the neighbor's home.\n", 4)
-    while True:
-        neighbor_choice = valid_input(attempt_count, "What would you like "
-                                      "to do next? Please enter the number "
-                                      "of your selection.\n\n1. Knock on "
-                                      "the door.\n2. Open the door.\n3. "
-                                      "Turn around and go back.\n\n",
-                                      ['1', '2', '3'])
-        if neighbor_choice == "1":
-            print_pause("\nYou knock, but nobody answers.\n", 2)
-        elif neighbor_choice == "2":
-            print_pause("\nYou try opening the door, but it's locked.\n", 2)
-            if target == "neighbor":
-                if "neighbor_is_bob" in inventory:
-                    if "lockpick" in inventory:
-                        print_pause("You pull out your new lockpick and "
-                                    "skillfully unlock the door.", 3)
-                        print_pause("You quickly unsheath your sword and "
-                                    "open the door.", 2)
-                        print_pause("A small man, the top of his head "
-                                    "barely reaching as high as your "
-                                    "shoulder, stands up from his chair "
-                                    "in the corner of the room.\n", 3)
-                        print_pause("You can hear what sounds like "
-                                    "vicious dogs behind a door to "
-                                    "a back room.", 3)
-                        print_pause('"Are you Bob?" you ask.\n', 2)
-                        print_pause("His face is pale from shock. He "
-                                    "clearly wasn't expecting you.\n", 2)
-                        print_pause('"Ye...yes, sir." he stammers, '
-                                    'trailing off as he faints. His knees '
-                                    'buckle and he falls to the floor.', 3)
-                        print_pause("You sigh in disgust as you pick the "
-                                    "small man up and drape him over "
-                                    "your shoulders.", 3)
-                        print_pause("It's going to be a long walk home, "
-                                    "but the bounty will be worth "
-                                    "it!\n\n", 3)
-                        print_pause("YOU WON!!!\n", 2)
-                        print_pause("Congratulations! But beware... "
-                                    "this story may not play out how "
-                                    "you think next time...\n", 3)
-                        after_game()
-                    else:
-                        print_pause("If only you had the tools to "
-                                    "pick the lock...\n", 2)
-                        if "need_lockpick" not in inventory:
-                            inventory.append("need_lockpick")
-                else:
-                    print_pause("\nNo need to cause trouble with "
-                                "the neighbor, is there? We're here "
-                                "for Bob, after all.", 3)
-                    print_pause("It's probably best to leave the "
-                                "neighbor alone.\n", 3)
-            else:
-                print_pause("\nNo need to cause trouble with the "
-                            "neighbor, is there? We're here for "
-                            "Bob, after all.", 3)
-                print_pause("It's probably best to leave the "
-                            "neighbor alone.\n", 3)
-        else:
-            print_pause("\nYou decide your time is better spent "
-                        "elsewhere. You head back down the "
-                        "street.\n", 4)
-            return at_door(guy, pet, target)
-
-
-        print_pause("\nYou step into the alleyway, your hand "
-                    "resting on the hilt of your sword.", 3)
-        return alleyway(guy, pet, target)
-    
-
-
-
-
-def outside_alleyway(guy, pet, target):
-    attempt_count = 0
-    leaving_merchant = valid_input(attempt_count, "What will "
-                                   "you do now? Please enter "
-                                   "the number of your "
-                                   "selection.\n\n1. Return "
-                                   "to the wooden door\n2. "
-                                   "Enter the dark "
-                                   "alleyway.\n3. Walk to the "
-                                   "neighbor's house at the "
-                                   "end of the street.\n4. "
-                                   "Visit the merchant's "
-                                   "shop.\n\n",
-                                   ['1', '2', '3', '4'])
-    if leaving_merchant == "1":
-        print_pause("\nYou head back to the wooden door.", 2)
-        return at_door(guy, pet, target)
-    elif leaving_merchant == "2":
-        print_pause("\nYou cautiously enter the alleyway.", 2)
-        return alleyway(guy, pet, target)
-    elif leaving_merchant == "3":
-        return toward_dead_end(guy, pet, target)
-    else:
-        print_pause("\nYou approach the merchant's stand.", 2)
-        return merchant_stand(guy, pet, target)
-
-
-def back_door(guy, pet, target):
-    attempt_count = 0
-    print_pause("\nYou slowly approach the door.", 3)
-    print_pause("As you're just about to reach out for the handle, "
-                "the door shakes and a you hear a barrage of barking, "
-                "growling, and snapping from the other side of the door.", 6)
-    print_pause("Either it's a massive, vicious dog...or it's a massive, "
-                "equally vicious wolf.", 4)
-    while True:
-        back_door_choice = valid_input(attempt_count, "\nWhat would you "
-                                       "like to do? Please enter the number "
-                                       "of your selection.\n\n1. Knock on "
-                                       "the door.\n2. Open the door.\n3. "
-                                       "Exit the alleyway.\n\n",
-                                       ['1', '2', '3'])
-        if back_door_choice == "1":
-            print_pause("\nYou knock on the door. Nobody answers...", 2)
-            print_pause("but let's be honest, they probably wouldn't "
-                        "hear you over that canine's racket.", 2)
-        elif back_door_choice == "3":
-            print_pause("\nYou use your better judgement and leave "
-                        "the alley.\n", 2)
-            return outside_alleyway(guy, pet, target)
-        else:
-            print_pause("\nSuffering from a severe lack of common sense, "
-                        "you reach out and try to open the door.", 3)
-            print_pause("The door is unlocked, lucky you! The door "
-                        "bursts open and within seconds all you see "
-                        "are teeth.", 3)
-            print_pause("...", 3)
-            print_pause("I guess that WAS a wolf...", 3)
-            print_pause("...\n", 3)
-            print_pause("YOU LOSE!!!  You were eaten by a wolf.\n", 2)
+        
             return after_game()
-
-
-def alleyway(guy, pet, target):
-    attempt_count = 0
-    print_pause("Standing in the alleyway, all you can make out in the "
-                "dark is a back door to the neighbor's house and "
-                "various piles of trash and rubble against the alley "
-                "walls.\n", 6)
-    alley_choice = valid_input(attempt_count, "What do you do next? "
-                               "Please enter the number of your "
-                               "selection.\n\n1. Investigate the "
-                               "back door to the neighbor's home.\n2. "
-                               "Exit the alleyway.\n3. Return to the "
-                               "wooden door.\n4. Walk to the neighbor's "
-                               "front door.\n\n", ['1', '2', '3', '4'])
-    if alley_choice == "1":
-        print_pause("\nYou walk toward the back door of the "
-                    "neighbor's home.\n", 2)
-        return back_door(guy, pet, target)
-    elif alley_choice == "2":
-        print_pause("\nYou leave the alley and return to the moonlit "
-                    "street.\n", 2)
-        return outside_alleyway(guy, pet, target)
-    elif alley_choice == "3":
-        print_pause("\nYou leave the alley and return to the wooden "
-                    "door.\n", 2)
-        return at_door(guy, pet, target)
-    else:
-        return toward_dead_end(guy, pet, target)
 
 
 def run_from_pet(guy, pet, target):
