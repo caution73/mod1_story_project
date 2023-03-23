@@ -200,7 +200,6 @@ class Story {
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
-        console.log(storyArray)
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
@@ -246,13 +245,20 @@ class Player {
             console.log("B")
             if(this.notes.includes("Bob is a " + gameName.guy + ".")){
                 console.log("B1")
-                storyArray = gameName.locations.atWoodenDoor.guyTarget[1]
+                storyArray = gameName.locations.atWoodenDoor.scripts[1].guyTarget[1]
                 if(this.inventory.includes("Shield")){
                     console.log("B1a")
-                    gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[2])
+                    gameName.locations.atWoodenDoor.scripts[1].guyTarget[3].forEach(sentence => {
+                        storyArray.push(sentence);
+                    });
+                    gameName.tellStory(storyArray)
                 }else{
                     console.log("B1b")
-                    gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[3])
+                    gameName.locations.atWoodenDoor.scripts[1].guyTarget[2].forEach(sentence => {
+                        storyArray.push(sentence);
+                    });
+                    skipChoices = true;
+                    gameName.tellStory(storyArray)
                 }
             }else if(this.notes.includes("Bob is a " + gameName.pet + ".")){
                 console.log("B2")
@@ -266,7 +272,7 @@ class Player {
                     
             }else{
                 console.log("B3")
-                gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget)
+                gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
             }
         }else{
             storyArray = gameName.locations.atWoodenDoor.scripts[0].all
@@ -276,8 +282,8 @@ class Player {
                 gameName.locations.atWoodenDoor.scripts[1].guyTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
-                console.log(storyArray)
                 this.notes.push("Visited Bob's supposed address.")
+                this.notes.push("Bob is a " + gameName.guy + ".")
                 gameName.tellStory(storyArray)
             }else if(gameName.target === gameName.pet){
                 console.log("A2")
