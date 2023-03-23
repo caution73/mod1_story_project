@@ -181,26 +181,26 @@ class Story {
     updateMessageDiv(message){
         messageText.textContent = message;
     }
-    //     Previous code, works great. Do not delete.
+    
     presentChoices(){
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        this.updateMessageDiv(promptVar[0])   // Display the prompt for a decision in the message box.
-        if (promptVar.length === 0){  // If all array messages have been removed...
-            messageActive = false;   // Hide the message box.
-            messageBox.style.visibility = "hidden";
-            nextBtn.style.visibility = "hidden";
-            for(let i = 0; i < choicesVar.length; i++){  //  for each item(option) in choicesVar
-                let option = document.createElement("li");  //  Create an li element 
-                option.textContent = choicesVar[i];  //  Then give that li element the corresponding text content.
-                optionList.append(option);  //   Add the li element to the ol in the choicesDisplay div.
-            }
-            decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
+        console.log(nextBtn.style.visibility)
+        this.updateMessageDiv("What would you like to do?")   // Display the prompt for a decision in the message box.
+        console.log(messageText.textContent)
+        //messageActive = false;   // Hide the message box.
+        //messageBox.style.visibility = "hidden";
+        nextBtn.style.visibility = "hidden";
+        for(let i = 0; i < choicesVar.length; i++){  //  for each item(option) in choicesVar
+            let option = document.createElement("li");  //  Create an li element 
+            option.textContent = choicesVar[i];  //  Then give that li element the corresponding text content.
+            optionList.append(option);  //   Add the li element to the ol in the choicesDisplay div.
         }
-        promptVar.shift()  // 
+        decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
+        }
         
-    }
+    
     /*
     presentChoices(){  // New code for object passing structure.
         messageActive = true;
@@ -231,8 +231,6 @@ class Story {
         console.log("Starting the game.")
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        promptVar = gameName.locations.atWoodenDoor.prompts  // Prepopulate the promptVar with the first prompts of the story.
-        choicesVar = gameName.locations.atWoodenDoor.choices  //  Prepopulate the choicesVar with the first choices of the story.
         storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
         //storyObject = gameName.locations.intro
         console.log(promptVar)
@@ -243,7 +241,6 @@ class Story {
         console.log("resetting the game")
         promptVar = [" "];
         storyArray = [" "];
-        choicesVar = [" "];
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
@@ -317,12 +314,11 @@ let currentChoices = ""  // Use this to pass objects containing next storyArray,
 let decisionTime = false;
 let storyArray = [];
 let gameName = "game"
-let next = true;
 let messageActive = false;
 let gameCount = 0;
-//let nextChoices = "";
 let promptVar = []
-let choicesVar = []
+let choicesVar = ["Pay a visit to house where Bob supposedly resides.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
+let place = "woodenDoor"
 
 
 gameName = new Story()
@@ -345,16 +341,23 @@ nextBtn.addEventListener("click", (evnt) => {
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     if(evnt.target.className === "button" && decisionTime === true){
-        console.log("clicked button")
-        optionList.textContent = ""
+        if(evnt.target.id === "button1"){
+            console.log("Clicked btn1")
+        }else if(evnt.target.id === "button2"){
+            console.log("clicked btn2")
+        }else if(evnt.target.id === "button3"){
+            console.log("clicked btn3")
+        }else{
+            console.log("clicked btn4")
+         } 
+        console.log("clicked btn")
         // make promptVar and choicesVar equal to li's attached prompt info
         //promptVar = gameName.choices.atWoodenDoorChoices[0].prompt;
         optionList.textContent = "";
         decisionTime = false;
-        storyArray = storyArray.nexts
         //storyArray = gameName.choices
         //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
-        return player.knockOnWoodenDoor()
+        //return player.knockOnWoodenDoor()
         
     }
 })
