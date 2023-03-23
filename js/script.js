@@ -48,6 +48,7 @@ const btn1 = document.getElementById("button1")
 const btn2 = document.getElementById("button2")
 const btn3 = document.getElementById("button3")
 const btn4 = document.getElementById("button4")
+const inventory = document.getElementById("inventoryList")
 
 
 
@@ -392,6 +393,9 @@ class Player {
                 storyArray.push(sentence);
             });
             this.inventory.push("Shield")
+            this.notes.splice(this.notes.indexOf("Could use something to block Bob's club."))
+            console.log(this.inventory)
+            console.log(this.notes)
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("Could use something to trap Bob with...")){
             gameName.locations.merchantStand[3].forEach(sentence => {
@@ -410,9 +414,7 @@ class Player {
             gameName.locations.merchantStand[1].forEach(sentence => {
                 storyArray.push(sentence);
         });
-            console.log(storyArray)
-            console.log(gameName.locations.merchantStand[0])
-            console.log(gameName.locations.intro.scripts)
+            
             return gameName.tellStory(storyArray)
         }
     }
@@ -494,13 +496,19 @@ impNext.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     skipChoices = true;
     if(storyArray.length === 0 && choseDeath === false){
+        window.alert("...Let's take a second to think, here. This seems sketchy...")
         let investigateFurther = window.confirm("Would you like to try to open the door? Click OK to try to open the door. Click Cancel to leave the alley.")
         if(investigateFurther){
-            choseDeath = true;
-            largeMessageBox.style.visibility = "hidden";
-            impNext.style.visibility = "hidden";
-            gameName.updateStoryArray(gameName.locations.alleyWay[2])
-            return gameName.tellStory(storyArray)
+            let uSure = window.confirm("Wooooahhh, man. Are you sure? That dog/wolf sounds MEAN! Click OK if you want to try to open the door, otherwise click Cancel.")
+            if(uSure){
+                window.alert(".....Alrighty, then...")
+                choseDeath = true;
+                largeMessageBox.style.visibility = "hidden";
+                impNext.style.visibility = "hidden";
+                gameName.updateStoryArray(gameName.locations.alleyWay[2])
+                return gameName.tellStory(storyArray)
+            }
+            
         }else{
             skipChoices = false;
         }

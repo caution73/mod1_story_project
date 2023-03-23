@@ -45,8 +45,8 @@ main {
     color: white;
     align-self: center;
     text-align: center;
-    width: 65vw;
-    height: 35vh;
+    width: 60vw;
+    height: 30vh;
     display: flex;
     position: relative;
     justify-content: center;
@@ -55,7 +55,6 @@ main {
 }
 .storyMessage {
     background-color: black;
-    opacity: .7;
     color: white;
     align-self: center;
     text-align: center;
