@@ -232,7 +232,7 @@ class Story {
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         promptVar = gameName.locations.atWoodenDoor.prompts  // Prepopulate the promptVar with the first prompts of the story.
-        //choicesVar = gameName.choices.atWoodenDoorChoices[1].options  //  Prepopulate the choicesVar with the first choices of the story.
+        choicesVar = gameName.locations.atWoodenDoor.choices  //  Prepopulate the choicesVar with the first choices of the story.
         storyArray = gameName.locations.intro.scripts  //  Prepopulate the storyArray with the introduction script.
         //storyObject = gameName.locations.intro
         console.log(promptVar)
@@ -275,6 +275,7 @@ class Player {
     constructor(){
         this.name = ""
         this.inventory = ["Clothes", "Sword", "Bindings"]
+        this.notes = []
     }
     knockOnWoodenDoor(){
         if(this.notes.includes("Visited Bob's supposed address.")){
@@ -296,12 +297,14 @@ class Player {
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget)
             }
         }else{
-            gameName.tellStory(gameName.locations.atWoodenDoor.scripts.all)
+            storyArray = gameName.locations.atWoodenDoor.scripts[0].all
+            gameName.tellStory(storyArray)
             if(gameName.target === gameName.guy){
                 gameName.tellStory(gameName.locations.atWoodenDoor.guyTarget[0])
             }else if(gameName.target === gameName.pet){
                 gameName.tellStory(gameName.locations.atWoodenDoor.petTarget[0])
             }else{
+                console.log(gameName.locations.atWoodenDoor.neighborTarget[0])
                 gameName.tellStory(gameName.locations.atWoodenDoor.neighborTarget[0])
             }
         }
@@ -323,6 +326,7 @@ let choicesVar = []
 
 
 gameName = new Story()
+const player = new Player()
 
 //nextScene = gameName.locations.
 
@@ -342,14 +346,16 @@ buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     if(evnt.target.className === "button" && decisionTime === true){
         console.log("clicked button")
+        optionList.textContent = ""
         // make promptVar and choicesVar equal to li's attached prompt info
         //promptVar = gameName.choices.atWoodenDoorChoices[0].prompt;
         optionList.textContent = "";
         decisionTime = false;
-        storyObject = storyObject.nexts
-        //storyArray = gameName.choices.atWoodenDoorChoices[2].nexts[0]
+        storyArray = storyArray.nexts
+        //storyArray = gameName.choices
         //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
-        return gameName.tellStory(storyObject)
+        return player.knockOnWoodenDoor()
+        
     }
 })
 
@@ -362,14 +368,15 @@ prevent default
 call correllated function for specific choice
 clear choicedisplay
 
-knockDoor(){
-    update promptVar
-    update choicesVar
-    if(beentowoodendoor){
-        gameName.tellStory(thisspecificarray)
-    }else{
-        gameName.tellStory(Otherarray)
-    }
+element has associated player function
+click on element
+element calls player function
+player function clears choicedisplay
+player function updates promptVar
+player function updates choicesVar
+player function updates nextVar
+player function calls game tellstory
+
     
 }
 
