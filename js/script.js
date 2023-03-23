@@ -33,11 +33,14 @@ const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
 
+const largeMessageBox = document.querySelector(".importantDecision")
+const largeMessageText = document.querySelector(".importantDecision p")
 const messageBox = document.querySelector(".storyMessage")
 const messageText = document.querySelector(".storyMessage p")
 const choiceDisplay = document.querySelector(".choicesDisplay")
 const optionList = document.querySelector(".choicesDisplay ol")
 const artWindow = document.querySelector(".artWindow")
+const impNext = document.querySelector(".impNext")
 const nextBtn = document.querySelector(".next")
 const resetBtn = document.querySelector(".reset")
 const buttons = document.querySelector(".buttons")
@@ -172,7 +175,6 @@ class Story {
                     "You slowly approach the door.","As you're just about to reach out for the handle, the door shakes and a you hear a barrage of barking, growling, and snapping from the other side of the door.",
                     "Either it's a massive, vicious dog...or it's a massive, equally vicious wolf.", "...",
                     "What do you want to do? Try to open the door, or leave the alley?"],
-                    ["You knock on the door. Nobody answers...", "but let's be honest, they probably wouldn't hear you over that canine's racket."],
                     ["You use your better judgement and leave the alley."],
                     ["Suffering from a severe lack of common sense, you reach out and try to open the door.",
                     "The door is unlocked, lucky you!",
@@ -205,6 +207,28 @@ class Story {
         }
         storyArray.shift()
     }
+    tellGrippingStory(storyArray){
+        console.log(storyArray)
+        largeMessageBox.style.visibility = "visible";
+        impNext.style.visibility = "visible";
+        this.updateLargeMessageDiv(storyArray[0])
+        if (storyArray.length === 0){  // If all array messages have been removed...
+            largeMessageBox.style.visibility = "hidden";
+            impNext.style.visibility = "hidden";
+            if(!skipChoices){
+                this.presentChoices()
+            }else{
+                return // This is new, for alley. If doesn't work, remove.
+            }
+           
+        }
+        storyArray.shift()
+    }
+
+    updateLargeMessageDiv(message){
+        largeMessageText.textContent = message;
+    }
+
     updateMessageDiv(message){
         messageText.textContent = message;
     }
@@ -250,6 +274,9 @@ class Story {
             optionList.firstChild.remove()
         }
         messageText.textContent = [" "];
+        largeMessageBox.visibility = "hidden";
+        largeMessageText.textContent = []
+        impNext.visibility = "hidden"
         messageActive = false;
         optionList.textContent = [" "];  
         player.inventory = ["Clothes", "Sword", "Binding cord"]
@@ -271,6 +298,8 @@ class Story {
         original.forEach(sentence => {
             storyArray.push(sentence);
         });
+    }
+    afterGame(){
     }
 }
 
@@ -389,9 +418,18 @@ class Player {
     }
     investigateAlley(){
         gameName.updateStoryArray(gameName.locations.alleyWay[0])
-        skipChoices = true;
-        gameName.updateStoryArray(gameName.locations.alleyWay[1])
-        gameName.tellStory(storyArray)               
+        //skipChoices = true;
+        gameName.tellGrippingStory(storyArray)
+        //gameName.tellStory(storyArray)     
+        console.log(storyArray)
+//alley function sets story array
+//starts impDiv
+//sends array through impDiv
+//impDiv button is used, rather than next
+//impDiv button closes div and reopens with new sentence, each time
+//final impdiv button calls window.confirm
+//if ok,
+ // call tellStory with end text.          
 
     }
     visitNeighborFront(){
@@ -434,12 +472,11 @@ let promptVar = []
 let choicesVar = ["Pay a visit to the house where Bob supposedly resides.", "Visit the neighbor's house (front door).", "Check out the merchant's shop.", "Investigate the dark alleyway."]
 let place = "woodenDoor"
 let skipChoices = false;
+let choseDeath = false;
 
 
 gameName = new Story()
 const player = new Player()
-
-//nextScene = gameName.locations.
 
 gameName.startGame()
 
@@ -451,6 +488,24 @@ resetBtn.addEventListener("click", (evnt) => {
 nextBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
     return gameName.tellStory(storyArray)
+})
+
+impNext.addEventListener("click", (evnt) => {
+    evnt.preventDefault()
+    skipChoices = true;
+    if(storyArray.length === 0 && choseDeath === false){
+        let investigateFurther = window.confirm("Would you like to try to open the door? Click OK to try to open the door. Click Cancel to leave the alley.")
+        if(investigateFurther){
+            choseDeath = true;
+            largeMessageBox.style.visibility = "hidden";
+            impNext.style.visibility = "hidden";
+            gameName.updateStoryArray(gameName.locations.alleyWay[2])
+            return gameName.tellStory(storyArray)
+        }else{
+            skipChoices = false;
+        }
+    }
+    return gameName.tellGrippingStory(storyArray)
 })
 
 buttons.addEventListener("click", (evnt) => {
@@ -483,6 +538,19 @@ buttons.addEventListener("click", (evnt) => {
 
 
 /*
+
+button 4 starts alley
+alley function sets story array
+starts impDiv
+sends array through impDiv
+impDiv button is used, rather than next
+impDiv button closes div and reopens with new sentence, each time
+final impdiv button calls window.confirm
+if ok,
+  call tellStory with end text.
+
+
+
 // =============================================
 // =============================================
 // =============================================
