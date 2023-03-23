@@ -149,13 +149,13 @@ class Story {
                 "Walk left, toward the neighbor's house and the dead end.",
                 "Walk right, toward the alley and merchant."],
         },
-        merchantStand : [["A homely old man sits, asleep, behind the merchant stand.",
+        merchantStand : [["You approach the merchant's stand.", "A homely old man sits, asleep, behind the merchant stand.",
                         "Your presence startles him awake."],
                         ["Looking at his wares, you can't think of anything else that you would need right now.",
                         "It's time to capture Bob and earn your pay!"],
-                        ["You purchase a lockpick from him. Conveniently, you already know how to use it."],
+                        ["You purchase a lockpick from him.", "Conveniently, you already know how to use it."],
                         ["You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% {pet}!"],
-                        ["You buy a sturdy oak shield from him. This will surely help deflect Bob's swinging club!"]]
+                        ["You buy a sturdy oak shield from him.", "This will surely help deflect Bob's swinging club!"]]
         
     }
 }
@@ -225,6 +225,7 @@ class Story {
         messageText.textContent = [" "];
         optionList.textContent = [" "];
         decisionTime = false;
+        skipChoices = false;
         gameCount++
         gameName = "Game" + gameCount
         console.log(gameName)
@@ -263,6 +264,7 @@ class Player {
                     gameName.locations.atWoodenDoor.scripts[1].guyTarget[3].forEach(sentence => {
                         storyArray.push(sentence);
                     });
+                    skipChoices = true;
                     gameName.tellStory(storyArray)
                 }else{
                     console.log("B1b")
@@ -317,9 +319,26 @@ class Player {
                 storyArray.push(sentence);
             });
             this.inventory.push("Shield")
-            gameName.tellStory(storyArray)
-        }
+            return gameName.tellStory(storyArray)
+        }else if(this.notes.includes("Could use something to trap Bob with...")){
+            gameName.locations.merchantStand[3].forEach(sentence => {
+                storyArray.push(sentence);
+        });
+            this.inventory.push("Net")
+            return gameName.tellStory(storyArray)
+        }else if(this.notes.includes("I need something to help me open that door...")){
+            gameName.locations.merchantStand[2].forEach(sentence => {
+                storyArray.push(sentence);
+        });
+            this.inventory.push("Lockpick")
+            return gameName.tellStory(storyArray)
 
+        }else{
+            gameName.locations.merchantStand[1].forEach(sentence => {
+                storyArray.push(sentence);
+        });
+            return gameName.tellStory(storyArray)
+        }
     }
 }
 
@@ -365,14 +384,11 @@ buttons.addEventListener("click", (evnt) => {
             console.log("clicked btn2")
         }else if(evnt.target.id === "button3"){
             console.log("clicked btn3")
-            player.visitMerchantStand()
+            return player.visitMerchantStand()
         }else{
             console.log("clicked btn4")
          } 
-        console.log("clicked btn")
-        // make promptVar and choicesVar equal to li's attached prompt info
-        //promptVar = gameName.choices.atWoodenDoorChoices[0].prompt;
-       
+        console.log("clicked btn")       
         decisionTime = false;
         //storyArray = gameName.choices
         //console.log(gameName.locations.atWoodenDoor[0].scripts[0].all) // This syntax works. It accesses the all array from atWoodenDoor.scripts.
@@ -518,52 +534,12 @@ def toward_dead_end(guy, pet, target):
             return at_door(guy, pet, target)
 
 
-def merchant_or_alley(guy, pet, target):
-    attempt_count = 0
-    print_pause("What would you like to do?", 2)
-    shop_or_alley = valid_input(attempt_count, "Please enter "
-                                "the number of your "
-                                "selection.\n\n1. Buy from the "
-                                "merchant.\n2. Explore the dark "
-                                "alleyway.\n3. Go back to the "
-                                "wooden door.\n\n",
-                                ['1', '2', '3'])
-    if shop_or_alley == "1":
-        print_pause("\nYou approach the merchant's stand.", 2)
-        return merchant_stand(guy, pet, target)
-    elif shop_or_alley == "2":
         print_pause("\nYou step into the alleyway, your hand "
                     "resting on the hilt of your sword.", 3)
         return alleyway(guy, pet, target)
-    else:
-        print_pause("\nYou return to the wooden door.", 2)
-        return at_door(guy, pet, target)
+    
 
 
-def merchant_stand(guy, pet, target):  # visit the merchant
-    print_pause("\nA homely old man sits, asleep, behind the "
-                "merchant stand.", 3)
-    print_pause("Your presence startles him awake.", 2)
-    if "need_lockpick" in inventory:  # if needed, buy lockpick.
-        print_pause("You purchase a lockpick from him. Conveniently, "
-                    "you already know how to use it.", 3)
-        inventory.append("lockpick")
-        inventory.remove("need_lockpick")
-    elif "need_net" in inventory:  # if you need it, buy a net.
-        print_pause("You purchase an animal-trapper's net from him.", 3)
-        print_pause(f"NOW you're ready for that $@^% {pet}!", 3)
-        inventory.append("net")
-        inventory.remove("need_net")
-    elif "need_shield" in inventory:  # if you need it, buy a shield.
-        print_pause("You buy a sturdy oak shield from him. This will "
-                    "surely help deflect Bob's swinging club!", 3)
-        inventory.append("shield")
-        inventory.remove("need_shield")
-    else:  # redirect player to continue the story. Return once necessary.
-        print_pause("Looking at his wares, you can't think of anything "
-                    "else that you would need right now.", 3)
-        print_pause("It's time to capture Bob and earn your pay!\n", 2)
-    return outside_alleyway(guy, pet, target)
 
 
 def outside_alleyway(guy, pet, target):
