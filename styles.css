@@ -18,7 +18,7 @@ main {
 
 .artWindow {
     background-image: url("images/DarkVillage.png");
-    background-position: cover;
+    background-size: cover;
     height: 60vh;
     display: flex;
     justify-content: center;
@@ -37,6 +37,12 @@ main {
     margin-left: -93vw;
     margin-top: 1vh;
     
+}
+
+.reset:hover{
+    color: white;
+    -webkit-text-stroke: black;
+    cursor: pointer;
 }
 
 .importantDecision {
@@ -96,7 +102,13 @@ main {
     margin-bottom: 2vh;
     margin-left: 54vw;
     visibility: visible;
+}
 
+.next:hover{
+    cursor: pointer;
+    background-color: rgb(94, 188, 188);
+    color: black;
+    border: 1px solid white;
 }
 
 .controlsWindow {
@@ -164,6 +176,13 @@ main {
     width: 7vw;
     text-align: center;
     font-size: 6vh;
+}
+
+.button:hover{
+    background-color: rgb(81, 82, 114);
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
 }
 
 .notes {

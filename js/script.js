@@ -1,31 +1,10 @@
 /*
-define classes
-define variables
 
-game....
-
-start menu
-
-Needed functions:
-
-update inventory lists
-display story message
-change screen art
-retreat?
-start game
-create random enemy
-create random pet?
-.......
+.......Stretch Goals............
 play associated audio
 additional inventory?
 combat?
 health bar?
-
-
-story class/object
-player class/object
-enemy class/object
-
 
 */
 
@@ -212,7 +191,7 @@ class Story {
             if(!skipChoices){
                 this.presentChoices()
             }else{
-                return // This is new, for alley. If doesn't work, remove.
+                return 
             }
            
         }
@@ -298,7 +277,6 @@ class Story {
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
-
         notesUl.innerHTML = "NOTES"
         player.notes = []
         player.inventory = ["Sword", "Clothes", "Binding cord"]
@@ -319,8 +297,8 @@ class Story {
         skipChoices = false;
         gameOver = false;
         gameCount++
-        gameName = "Game" + gameCount
-        console.log(gameName)
+        //gameName = "Game" + gameCount
+        //console.log(gameName)
         gameName = new Story()
         console.log(gameName)
         if(playAgain){
@@ -625,44 +603,9 @@ buttons.addEventListener("click", (evnt) => {
             console.log("clicked btn4")
             return player.investigateAlley()
          } 
-        
-        
     }
 })
 
 
 
 
-
-/*
-
-// =============================================
-// =============================================
-// =============================================
-
-       Python Code
-
-        
-
-def run_from_pet(guy, pet, target):
-    attempt_count = 0
-    print_pause(4)
-    fleeing_choice = valid_input(attempt_count, "Where do you "
-                                 "run? Please enter the number "
-                                 "of your selection.\n\n1. "
-                                 "Duck into the dark alleyway "
-                                 "to hide.\n2. That alley "
-                                 "looks sketchy, keep running "
-                                 "down the street.\n\n",
-                                 ['1', '2'])
-    if fleeing_choice == "1":
-        print_pause(
-        inventory.append("need_net")
-        return alleyway(guy, pet, target)
-    else:
-        print_pause( 3)
-        return after_game()
-
-
-
-*/
