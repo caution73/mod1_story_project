@@ -299,9 +299,9 @@ class Story {
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
-        while(inventory.firstChild){
-            inventory.firstChild.remove()
-        }
+        notesUl.innerHTML = "NOTES"
+        player.notes = []
+        console.log(player.notes)
         messageText.textContent = [" "];
         largeMessageBox.visibility = "hidden";
         largeMessageText.textContent = []
@@ -309,7 +309,6 @@ class Story {
         messageActive = false;
         optionList.textContent = [" "];  
         //player.inventory = [ "Sword", "Clothes", "Binding cord"]
-        player.notes = []
         decisionTime = false;
         skipChoices = false;
         gameOver = false;
@@ -363,7 +362,7 @@ class Player {
             if(this.notes.includes("Bob is a " + gameName.guy + ".")){
                 console.log("B1")
                 gameName.updateStoryArray(gameName.locations.atWoodenDoor.scripts[1].guyTarget[1])
-                if(this.inventory.includes("Shield")){
+                if(this.inventory.includes("Sturdy Oak Shield")){
                     console.log("B1a")
                     gameName.locations.atWoodenDoor.scripts[1].guyTarget[3].forEach(sentence => {
                         storyArray.push(sentence);
@@ -423,7 +422,7 @@ class Player {
                 gameName.locations.atWoodenDoor.neighborTarget[0].forEach(sentence => {
                     storyArray.push(sentence);
                 });
-                this.notes.push("Bob is the neighbor.")
+                this.notes.push("Bob is in the other house.")
                 return gameName.tellStory(storyArray)
             }
         }
