@@ -253,7 +253,6 @@ class Story {
         largeMessageBox.style.visibility = "hidden"
         impNext.style.visibility = "hidden"
         notesUl.textContent = "NOTES"
-        inventory.textContent = "INVENTORY"
         player.notes.forEach(item => {  //  for each item in player.notes
             let itemLi = document.createElement("li");  //  Create an li element 
             itemLi.textContent = item;  //  Then give that li element the corresponding text content.
@@ -299,8 +298,16 @@ class Story {
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
+
         notesUl.innerHTML = "NOTES"
         player.notes = []
+        player.inventory = ["Sword", "Clothes", "Binding cord"]
+        let liElements = document.getElementsByTagName("li")
+        for(let i = 0; i < liElements.length; i++){
+            if(!player.inventory.includes(liElements[i].textContent)){
+                liElements[i].remove()
+            }
+        }
         console.log(player.notes)
         messageText.textContent = [" "];
         largeMessageBox.visibility = "hidden";
@@ -308,7 +315,6 @@ class Story {
         impNext.visibility = "hidden"
         messageActive = false;
         optionList.textContent = [" "];  
-        //player.inventory = [ "Sword", "Clothes", "Binding cord"]
         decisionTime = false;
         skipChoices = false;
         gameOver = false;
@@ -436,9 +442,9 @@ class Player {
                 storyArray.push(sentence);
             });
             this.inventory.push("Sturdy Oak Shield")
-            //let shieldLi = document.createElement("li");  //  Create an li element 
-            //shieldLi.textContent = "Sturdy Oak Shield";  //  Then give that li element the corresponding text content.
-            //inventory.append(shieldLi)
+            let shieldLi = document.createElement("li");  //  Create an li element 
+            shieldLi.textContent = "Sturdy Oak Shield";  //  Then give that li element the corresponding text content.
+            inventory.append(shieldLi)
             this.notes.splice(this.notes.indexOf("Could use something to block Bob's club."))
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("Could use something to trap Bob with...")){
@@ -446,9 +452,9 @@ class Player {
                 storyArray.push(sentence);
         });
             this.inventory.push("Net")
-            //let netLi = document.createElement("li");  //  Create an li element 
-            //netLi.textContent = "Animal Trapper's Net";  //  Then give that li element the corresponding text content.
-            //inventory.append(netLi)
+            let netLi = document.createElement("li");  //  Create an li element 
+            netLi.textContent = "Animal Trapper's Net";  //  Then give that li element the corresponding text content.
+            inventory.append(netLi)
             this.notes.splice(this.notes.indexOf("Could use something to trap Bob with..."))
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("I need something to help me open that door...")){
@@ -456,9 +462,9 @@ class Player {
                 storyArray.push(sentence);
         });
             this.inventory.push("Lockpick")
-            //let lockpickLi = document.createElement("li");  //  Create an li element 
-            //lockpickLi.textContent = "Lockpick";  //  Then give that li element the corresponding text content.
-            //inventory.append(lockpickLi)
+            let lockpickLi = document.createElement("li");  //  Create an li element 
+            lockpickLi.textContent = "Lockpick";  //  Then give that li element the corresponding text content.
+            inventory.append(lockpickLi)
             this.notes.splice(this.notes.indexOf("I need something to help me open that door..."))
             return gameName.tellStory(storyArray)
 
@@ -483,7 +489,7 @@ class Player {
     visitNeighborFront(){
         console.log("NF")
         gameName.updateStoryArray(gameName.locations.neighborFront[0])
-        if(this.notes.includes("Bob is the neighbor.")){
+        if(this.notes.includes("Bob is in the other house.")){
             console.log("NF1")
             if(this.inventory.includes("Lockpick")){
                 console.log("NF1a")
