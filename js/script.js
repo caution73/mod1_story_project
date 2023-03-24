@@ -119,7 +119,7 @@ class Story {
                 `Wait...${this.pet}s can growl?`, "Yes....yes they can.",
                 "Bob leaps from the cage and attacks you! You wave your sword back and forth, hoping to land a strike as Bob darts about, nipping at any part of you that gets close enough.",
                 "You look for an escape. The dead-end street to your left offers no safety, so you take off running to the right, toward the merchant and alleyway.",
-                `You hear the savage ${this.pet} at your heels.`], 
+                `You hear the savage ${this.pet} at your heels.`, "You bolt down the street, nearly tripping over a loose cobblestone as you approach the alley entrance."], 
                 ["With your net at the ready, you knock on the door once more and step to the side, hiding out of view against the side of the house.",
                 `The door opens and the ${this.pet} flies out into the street, clearly still enraged from your previous encounter.`,
                 "You leap forward and scoop up Bob with the net!",
@@ -153,7 +153,7 @@ class Story {
                         ["Looking at his wares, you can't think of anything else that you would need right now.",
                         "It's time to capture Bob and earn your pay!"],
                         ["You purchase a lockpick from him.", "Conveniently, you already know how to use it."],
-                        [`"You purchase an animal-trapper's net from him.", "NOW you're ready for that $@^% ${this.pet}!"`],
+                        ["You purchase an animal-trapper's net from him.", `NOW you're ready for that $@^% ${this.pet}!`],
                         ["You buy a sturdy oak shield from him.", "This will surely help deflect Bob's swinging club!"]],
         neighborFront : [["You walk toward the end of the street, turning your attention toward the only thing of any interest at all, the front door to the neighbor's home.",
                         "You knock, but nobody answers.","You try opening the door, but it's locked."],
@@ -183,12 +183,20 @@ class Story {
                     "The door bursts open and within seconds all you see are teeth.",
                     "...", "I guess that WAS a wolf...",
                     "...", "YOU LOSE!!!  You were eaten by a wolf."]],
-        fleeing : [[]]
+        fleeing : [["Sprinting full speed, you turn the corner into the dark alleyway.",
+                    "You dive behind a large pile of broken wine kegs and crates, hoping that your pursuer would continue onward down the alleyway.",
+                    `The ${this.pet} darts past you, slowing a bit as it realizes that it has lost you.`,
+                    "As Bob frantically searches for you, rage gleaming in his eyes, you quietly push yourself farther into the mountain of garbage and make yourself as small as possible.",
+                    "Bob takes one final look around the alley, briefly assessing the dark mass that you are hiding in, then rushes back to his home.",
+                    "It's clear to you that you're in need of additional tools, perhaps a net?"],
+                ["You sprint down the street, past the foreboding alleyway.",
+                "You can hear the monster behind you, closing in on you with each passing second.",
+                `You look over your shoulder just in time to see Bob, the ferocious ${this.pet}, reach out and grab you.`,
+                "...", `Who knew a ${this.pet} could have such a voracious appetite?`,
+                "YOU LOSE. You were devoured by Bob."]]
         
     }
 }
-
-                                    
 
          
     
@@ -211,7 +219,8 @@ class Story {
         storyArray.shift()
     }
     tellGrippingStory(storyArray){
-        console.log(storyArray)
+        messageBox.style.visibility = "hidden"
+        nextBtn.style.visibility = "hidden"
         largeMessageBox.style.visibility = "visible";
         impNext.style.visibility = "visible";
         this.updateLargeMessageDiv(storyArray[0])
@@ -241,13 +250,16 @@ class Story {
             return gameName.afterGame()
         }
         messageActive = true;
+        largeMessageBox.style.visibility = "hidden"
+        impNext.style.visibility = "hidden"
         notesUl.textContent = "NOTES"
+        inventory.textContent = "INVENTORY"
+        this.updateInventory()
         player.notes.forEach(item => {  //  for each item(option) in choicesVar
             let itemLi = document.createElement("li");  //  Create an li element 
             itemLi.textContent = item;  //  Then give that li element the corresponding text content.
             notesUl.append(itemLi);  //   Add the li element to the ol in the choicesDisplay div.
         })
-        console.log(storyArray)
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateMessageDiv("What would you like to do?")   // Display the prompt for a decision in the message box.
@@ -272,14 +284,16 @@ class Story {
     startGame(){
         console.log("Starting the game.")
         console.log(gameName)
+        this.updateInventory()
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
 
     }
-    reset(){
+    reset(playAgain){
         console.log("resetting the game")
+        console.log(playAgain)
         promptVar = [];
         storyArray = [];
         while(optionList.firstChild){
@@ -291,30 +305,41 @@ class Story {
         impNext.visibility = "hidden"
         messageActive = false;
         optionList.textContent = [" "];  
-        player.inventory = ["Clothes", "Sword", "Binding cord"]
+        player.inventory = [ "Sword", "Clothes", "Binding cord"]
         player.notes = []
         decisionTime = false;
         skipChoices = false;
+        gameOver = false;
         gameCount++
         gameName = "Game" + gameCount
         console.log(gameName)
         gameName = new Story()
         console.log(gameName)
-        return this.startGame()
-
+        if(playAgain){
+            return this.startGame()
+        }
     }
+   
     updateInventory(){
-
+        player.inventory.forEach(item => {  //  for each item(option) in choicesVar
+            let inventoryLi = document.createElement("li");  //  Create an li element 
+            inventoryLi.textContent = item;  //  Then give that li element the corresponding text content.
+            inventory.append(inventoryLi);  //   Add the li element to the ol in the choicesDisplay div.
+        })
     }
+    
     updateStoryArray(original){
         original.forEach(sentence => {
             storyArray.push(sentence);
         });
     }
     afterGame(){
-        let playAgain = window.confirm("Click 'OK' to play again. Click 'Cancel' to quit.")
+        playAgain = window.confirm("Click 'OK' to play again. Click 'Cancel' to quit.")
+        console.log(playAgain)
         if(playAgain){
-            this.reset()
+            this.reset(playAgain)
+        }else{
+            playAgain = true;
         }
         
     }
@@ -325,7 +350,7 @@ class Story {
 class Player {
     constructor(){
         this.name = ""
-        this.inventory = ["Clothes", "Sword", "Bindings"]
+        this.inventory = ["Clothes", "Sword", "Binding cord"]
         this.notes = []
     }
     knockOnWoodenDoor(){
@@ -388,7 +413,8 @@ class Player {
                 });
                 this.notes.push("Bob is a " + gameName.pet + ".")
                 this.notes.push("Could use something to trap Bob with...")
-                return gameName.tellStory(storyArray)
+                place = "fleeing"
+                return gameName.tellGrippingStory(storyArray)
             }else{
                 console.log("A3")
                 gameName.locations.atWoodenDoor.neighborTarget[0].forEach(sentence => {
@@ -407,10 +433,10 @@ class Player {
             gameName.locations.merchantStand[4].forEach(sentence => {
                 storyArray.push(sentence);
             });
-            this.inventory.push("Shield")
-            let shieldLi = document.createElement("li");  //  Create an li element 
-            shieldLi.textContent = "Sturdy Oak Shield";  //  Then give that li element the corresponding text content.
-            inventory.append(shieldLi)
+            this.inventory.push("Sturdy Oak Shield")
+            //let shieldLi = document.createElement("li");  //  Create an li element 
+            //shieldLi.textContent = "Sturdy Oak Shield";  //  Then give that li element the corresponding text content.
+            //inventory.append(shieldLi)
             this.notes.splice(this.notes.indexOf("Could use something to block Bob's club."))
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("Could use something to trap Bob with...")){
@@ -418,9 +444,9 @@ class Player {
                 storyArray.push(sentence);
         });
             this.inventory.push("Net")
-            let netLi = document.createElement("li");  //  Create an li element 
-            netLi.textContent = "Animal Trapper's Net";  //  Then give that li element the corresponding text content.
-            inventory.append(netLi)
+            //let netLi = document.createElement("li");  //  Create an li element 
+            //netLi.textContent = "Animal Trapper's Net";  //  Then give that li element the corresponding text content.
+            //inventory.append(netLi)
             this.notes.splice(this.notes.indexOf("Could use something to trap Bob with..."))
             return gameName.tellStory(storyArray)
         }else if(this.notes.includes("I need something to help me open that door...")){
@@ -428,9 +454,9 @@ class Player {
                 storyArray.push(sentence);
         });
             this.inventory.push("Lockpick")
-            let lockpickLi = document.createElement("li");  //  Create an li element 
-            shieldLi.textContent = "Lockpick";  //  Then give that li element the corresponding text content.
-            inventory.append(lockpickLi)
+            //let lockpickLi = document.createElement("li");  //  Create an li element 
+            //lockpickLi.textContent = "Lockpick";  //  Then give that li element the corresponding text content.
+            //inventory.append(lockpickLi)
             this.notes.splice(this.notes.indexOf("I need something to help me open that door..."))
             return gameName.tellStory(storyArray)
 
@@ -444,6 +470,7 @@ class Player {
     }
     investigateAlley(){
         gameName.updateStoryArray(gameName.locations.alleyWay[0])
+        place = "alley"
         //skipChoices = true;
         gameName.tellGrippingStory(storyArray)
         //gameName.tellStory(storyArray)     
@@ -461,6 +488,7 @@ class Player {
                 gameName.locations.neighborFront[3].forEach(sentence => {
                     storyArray.push(sentence);
                 });
+                gameOver = true;
                 return gameName.tellStory(storyArray)
             }else{
                 console.log("NF1b")
@@ -497,6 +525,7 @@ let place = "woodenDoor"
 let skipChoices = false;
 let choseDeath = false;
 let gameOver = false;
+let playAgain = true;
 
 //////////////                   ///////////////////////////////////////////////
 //////////////  Instantiations  ////////////////////////////////////////////////
@@ -516,7 +545,7 @@ gameName.startGame()
 
 resetBtn.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    gameName.reset()
+    gameName.reset(playAgain)
 })
 
 nextBtn.addEventListener("click", (evnt) => {
@@ -526,26 +555,48 @@ nextBtn.addEventListener("click", (evnt) => {
 
 impNext.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    skipChoices = true;
-    if(storyArray.length === 0 && choseDeath === false){
-        window.alert("...Let's take a second to think, here. This seems sketchy...")
-        let investigateFurther = window.confirm("Would you like to try to open the door? Click OK to try to open the door. Click Cancel to leave the alley.")
-        if(investigateFurther){
-            let uSure = window.confirm("Wooooahhh, man. Are you sure? That dog/wolf sounds MEAN! Click OK if you want to try to open the door, otherwise click Cancel.")
-            if(uSure){
-                window.alert(".....Alrighty, then...")
-                choseDeath = true;
+    if(place === "alley"){
+        if(storyArray.length === 0 && choseDeath === false){
+            window.alert("...Let's take a second to think, here. This seems sketchy...")
+            let investigateFurther = window.confirm("Would you like to try to open the door? Click OK to try to open the door. Click Cancel to leave the alley.")
+            if(investigateFurther){
+                let uSure = window.confirm("Wooooahhh, man. Are you sure? That dog/wolf sounds MEAN! Click OK if you want to try to open the door, otherwise click Cancel.")
+                if(uSure){
+                    window.alert(".....Alrighty, then...")
+                    choseDeath = true;
+                    gameOver = true;
+                    largeMessageBox.style.visibility = "hidden";
+                    impNext.style.visibility = "hidden";
+                    gameName.updateStoryArray(gameName.locations.alleyWay[2])
+                    return gameName.tellStory(storyArray)
+                }
+                
+            }else{
+                window.alert("You use your better judgement and leave the alley.")
+                skipChoices = false;
+            }
+        }
+        return gameName.tellGrippingStory(storyArray)
+    }else if(place === "fleeing"){
+        if(storyArray.length === 0 && choseDeath === false){
+            window.alert(`Uh oh...that ${gameName.pet} is getting pretty close...`)
+            let whereTo = window.confirm("Where should you go? Click OK to try to keep running on the street. Click Cancel to hide in the alley.")
+            if(whereTo){
+                window.alert(`You clearly understimate the speed of a ${gameName.pet}...`)
+                choseDeath = false;
+                gameOver = true;
                 largeMessageBox.style.visibility = "hidden";
                 impNext.style.visibility = "hidden";
-                gameName.updateStoryArray(gameName.locations.alleyWay[2])
+                gameName.updateStoryArray(gameName.locations.fleeing[1])
+                return gameName.tellStory(storyArray)
+            }else{
+                gameName.updateStoryArray(gameName.locations.fleeing[0])
                 return gameName.tellStory(storyArray)
             }
-            
-        }else{
-            skipChoices = false;
         }
+        return gameName.tellGrippingStory(storyArray)
     }
-    return gameName.tellGrippingStory(storyArray)
+    
 })
 
 buttons.addEventListener("click", (evnt) => {
@@ -577,45 +628,13 @@ buttons.addEventListener("click", (evnt) => {
 
 /*
 
-button 4 starts alley
-alley function sets story array
-starts impDiv
-sends array through impDiv
-impDiv button is used, rather than next
-impDiv button closes div and reopens with new sentence, each time
-final impdiv button calls window.confirm
-if ok,
-  call tellStory with end text.
-
-
-
 // =============================================
 // =============================================
 // =============================================
 
        Python Code
 
-
-
-def after_game():
-    attempt_count = 4
-    inventory.clear()  # reset inventory between games
-    play_again = valid_input(attempt_count, "Would you like to play again? "
-                             "Please enter 'Yes' or 'No'.\n\n",
-                             ['yes', 'no']).lower()
-    if play_again == "yes":
-        print_pause("\nExcellent! Here we go again!\n\n", 2)
-        return play_game()
-    elif play_again == "no":
-        print_pause("\nThank you for playing! Come back "
-                    "when you're ready to see what other "
-                    "things can happen here!\n", 2)
-        exit(0)
-
-
         
-            return after_game()
-
 
 def run_from_pet(guy, pet, target):
     attempt_count = 0
@@ -629,40 +648,11 @@ def run_from_pet(guy, pet, target):
                                  "down the street.\n\n",
                                  ['1', '2'])
     if fleeing_choice == "1":
-        print_pause("\nSprinting full speed, you turn the corner "
-                    "into the dark alleyway.", 3)
-        print_pause("You dive behind a large pile of broken "
-                    "wine kegs and crates, hoping that your "
-                    "pursuer would continue onward down the "
-                    "alleyway.", 5)
-        print_pause(f"The {pet} darts past you, slowing a bit "
-                    "as it realizes that it has lost you.", 3)
-        print_pause("As Bob frantically searches for you, rage "
-                    "gleaming in his eyes, you quietly push "
-                    "yourself farther into the mountain of "
-                    "garbage and make yourself as small as "
-                    "possible.", 5)
-        print_pause("Bob takes one final look around the alley, "
-                    "briefly assessing the dark mass that you "
-                    "are hiding in, then rushes back to his "
-                    "home.", 4)
-        print_pause("It's clear to you that you're in need "
-                    "of additional tools, perhaps a net?\n", 3)
+        print_pause(
         inventory.append("need_net")
         return alleyway(guy, pet, target)
     else:
-        print_pause("\nYou sprint down the street, past "
-                    "the foreboding alleyway.", 3)
-        print_pause("You can hear the monster behind you, "
-                    "closing in on you with each passing "
-                    "second.", 4)
-        print_pause("You look over your shoulder just in time "
-                    f"to see Bob, the ferocious {pet}, reach "
-                    "out and grab you.", 3)
-        print_pause("...", 4)
-        print_pause(f"Who knew a {pet} could have such a "
-                    "voracious appetite?\n", 3)
-        print_pause("YOU LOSE. You were devoured by Bob.\n", 3)
+        print_pause( 3)
         return after_game()
 
 

@@ -52,6 +52,7 @@ main {
     justify-content: center;
     font-size: 5vh;
     visibility: hidden;
+    padding: 2vh;
 }
 .storyMessage {
     background-color: black;
@@ -79,7 +80,7 @@ main {
     justify-self: left;
     font-size: 4vh;
     margin-bottom: 2vh;
-    margin-left: 52vw;
+    margin-left: 54vw;
     visibility: hidden;
 }
 .next {
