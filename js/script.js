@@ -287,6 +287,7 @@ class Story {
             }
         }
         console.log(player.notes)
+        place = "woodenDoor"
         messageText.textContent = [" "];
         largeMessageBox.visibility = "hidden";
         largeMessageText.textContent = []
