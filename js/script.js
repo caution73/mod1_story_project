@@ -398,7 +398,7 @@ class Player {
                     
             }else{
                 console.log("B3")
-                if(this.notes.includes("Bob is the neighbor."))
+                if(this.notes.includes("Bob is in the other house."))
                 gameName.updateStoryArray(gameName.locations.atWoodenDoor.neighborTarget[1])
                 return gameName.tellStory(storyArray)
             }
@@ -609,8 +609,8 @@ impNext.addEventListener("click", (evnt) => {
 
 buttons.addEventListener("click", (evnt) => {
     evnt.preventDefault()
-    optionList.textContent = "";
     if(evnt.target.className === "button" && decisionTime === true){
+        optionList.textContent = "";
         decisionTime = false;
         if(evnt.target.id === "button1"){
             console.log("Clicked btn1")
