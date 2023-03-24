@@ -254,8 +254,7 @@ class Story {
         impNext.style.visibility = "hidden"
         notesUl.textContent = "NOTES"
         inventory.textContent = "INVENTORY"
-        this.updateInventory()
-        player.notes.forEach(item => {  //  for each item(option) in choicesVar
+        player.notes.forEach(item => {  //  for each item in player.notes
             let itemLi = document.createElement("li");  //  Create an li element 
             itemLi.textContent = item;  //  Then give that li element the corresponding text content.
             notesUl.append(itemLi);  //   Add the li element to the ol in the choicesDisplay div.
@@ -284,7 +283,8 @@ class Story {
     startGame(){
         console.log("Starting the game.")
         console.log(gameName)
-        this.updateInventory()
+        player.inventory = ["Sword", "Clothes", "Binding cord"]
+        //this.updateInventory()
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
@@ -299,13 +299,16 @@ class Story {
         while(optionList.firstChild){
             optionList.firstChild.remove()
         }
+        while(inventory.firstChild){
+            inventory.firstChild.remove()
+        }
         messageText.textContent = [" "];
         largeMessageBox.visibility = "hidden";
         largeMessageText.textContent = []
         impNext.visibility = "hidden"
         messageActive = false;
         optionList.textContent = [" "];  
-        player.inventory = [ "Sword", "Clothes", "Binding cord"]
+        //player.inventory = [ "Sword", "Clothes", "Binding cord"]
         player.notes = []
         decisionTime = false;
         skipChoices = false;
