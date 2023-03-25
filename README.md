@@ -1,8 +1,4 @@
-<style>
-    * {
-        text-align: center;
-    }
-    </style>
+README
 
 Git a Bob (A Choose-Your-Own Adventure Game)
 This is a choose-your-own fantasy adventure game taking place in a fictional mountain village, with you (the player) as a bounty hunter set out to capture and return your latest target, "Bob". With multiple possible storylines, you'll have the opportunity to play the game over and over, yielding varying results.
