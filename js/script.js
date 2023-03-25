@@ -32,6 +32,7 @@ class Story {
         this.targets = [this.pet, this.guy, "neighbor"]
         this.target = this.targets[Math.floor(Math.random()*3)]
         
+        //  The following code contains all of the story text, separated into arrays that can be passed to, copied, and displayed using tellStory()
         this.locations = {
             intro : {
                 scripts : ["You find yourself on a dark street on a cool summer evening, having finally found the wooden door that your bounty target resides behind.", 
@@ -169,12 +170,12 @@ class Story {
     }
 }
          
-    
+    // Take the specified array, display the first message, then remove it from the array. (Wait on the Next button to repeat the process)
     tellStory(storyArray){  // 
         messageActive = true;
         messageBox.style.visibility = "visible";
         nextBtn.style.visibility = "visible";
-        this.updateMessageDiv(storyArray[0])
+        this.updateMessageDiv(storyArray[0])  
         if (storyArray.length === 0){  // If all array messages have been removed...
             messageActive = false;
             messageBox.style.visibility = "hidden";
@@ -187,7 +188,7 @@ class Story {
         }
         storyArray.shift()
     }
-    tellGrippingStory(storyArray){
+    tellGrippingStory(storyArray){  //  This is similar to tellStory, but this produces a different "Next" button that will do different things.
         messageBox.style.visibility = "hidden"
         nextBtn.style.visibility = "hidden"
         largeMessageBox.style.visibility = "visible";
@@ -205,15 +206,15 @@ class Story {
         storyArray.shift()
     }
 
-    updateLargeMessageDiv(message){
+    updateLargeMessageDiv(message){ // Display the selected story sentence.
         largeMessageText.textContent = message;
     }
 
-    updateMessageDiv(message){
+    updateMessageDiv(message){ // Display the selected story sentence.
         messageText.textContent = message;
     }
     
-    presentChoices(){
+    presentChoices(){ //  It's decision time. Display the options (places to go) for the play to pick.
         if(gameOver){
             return gameName.afterGame()
         }
@@ -240,12 +241,12 @@ class Story {
         decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
         }
   
-    updateArt(image){
+    updateArt(image){ // Change the background art.
         console.log(artWindow)
         artWindow.style.backgroundImage = image;
 
     }
-    startGame(){
+    startGame(){  //  Start the game.
         console.log("Starting the game.")
         console.log(gameName)
         player.inventory = ["Sword", "Clothes", "Binding cord"]
@@ -255,7 +256,7 @@ class Story {
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
     }
-    reset(playAgain){
+    reset(playAgain){ // Reset the game. Clear out divs and variables as necessary.
         console.log("resetting the game")
         console.log(playAgain)
         promptVar = [];
@@ -293,7 +294,7 @@ class Story {
         }
     }
    
-    updateInventory(){
+    updateInventory(){ // May not function properly. Will test in future.
         player.inventory.forEach(item => {  //  for each item(option) in choicesVar
             let inventoryLi = document.createElement("li");  //  Create an li element 
             inventoryLi.textContent = item;  //  Then give that li element the corresponding text content.
@@ -301,12 +302,12 @@ class Story {
         })
     }
     
-    updateStoryArray(original){
+    updateStoryArray(original){ // Display the sentence.
         original.forEach(sentence => {
             storyArray.push(sentence);
         });
     }
-    afterGame(){
+    afterGame(){ // What happens after player wins/loses.
         playAgain = window.confirm("Click 'OK' to play again. Click 'Cancel' to quit.")
         console.log(playAgain)
         if(playAgain){
@@ -325,7 +326,7 @@ class Player {
         this.inventory = ["Clothes", "Sword", "Binding cord"]
         this.notes = []
     }
-    knockOnWoodenDoor(){
+    knockOnWoodenDoor(){ // Storyline sequence for when the player visits the first house (with the wooden door)
         console.log(player.inventory)
         if(this.notes.includes("Visited Bob's supposed address.")){
             console.log("B")
@@ -397,7 +398,7 @@ class Player {
             }
         }
     }
-    visitMerchantStand(){
+    visitMerchantStand(){ // Storyline sequence for when the player visits the merchant
         gameName.updateStoryArray(gameName.locations.merchantStand[0])
         console.log(storyArray)
         console.log("M")
@@ -438,7 +439,7 @@ class Player {
             return gameName.tellStory(storyArray)
         }
     }
-    investigateAlley(){
+    investigateAlley(){ // Storyline sequence for when the player visits the alley
         gameName.updateStoryArray(gameName.locations.alleyWay[0])
         place = "alley"
         //skipChoices = true;
@@ -447,7 +448,7 @@ class Player {
         console.log(storyArray)
 
     }
-    visitNeighborFront(){
+    visitNeighborFront(){ // Storyline sequence for when the player visits the neighbor's front door.
         console.log("NF")
         gameName.updateStoryArray(gameName.locations.neighborFront[0])
         if(this.notes.includes("Bob is in the other house.")){
