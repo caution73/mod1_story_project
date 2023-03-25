@@ -1,16 +1,10 @@
-/*
-
-.......Stretch Goals............
-play associated audio
-additional inventory?
-combat?
-health bar?
-
-*/
+////////////// Arrays for character elements /////////////
 
 const guys = ["man", "troll", "centaur"]
 const pets = ["finch", "gerbil", "rabbit", "lizard", "kitten",
 "sparrow", "parrot", "crow", "hamster", "chinchilla"]
+
+/////////////// Variables for div elements /////////////////
 
 const largeMessageBox = document.querySelector(".importantDecision")
 const largeMessageText = document.querySelector(".importantDecision p")
@@ -29,8 +23,6 @@ const btn3 = document.getElementById("button3")
 const btn4 = document.getElementById("button4")
 const inventory = document.getElementById("inventoryList")
 const notesUl = document.querySelector(".notesUl")
-
-
 
 
 class Story {
@@ -176,7 +168,6 @@ class Story {
         
     }
 }
-
          
     
     tellStory(storyArray){  // 
@@ -193,7 +184,6 @@ class Story {
             }else{
                 return 
             }
-           
         }
         storyArray.shift()
     }
@@ -209,9 +199,8 @@ class Story {
             if(!skipChoices){
                 this.presentChoices()
             }else{
-                return // This is new, for alley. If doesn't work, remove.
+                return 
             }
-           
         }
         storyArray.shift()
     }
@@ -250,8 +239,6 @@ class Story {
         }
         decisionTime = true;  // After adding the li's, Choice button event listeners are now active.
         }
-        
-    
   
     updateArt(image){
         console.log(artWindow)
@@ -267,7 +254,6 @@ class Story {
         nextBtn.style.visibility = "visible";
         this.updateStoryArray(gameName.locations.intro.scripts)  //  Prepopulate the storyArray with the introduction script.
         this.tellStory(storyArray)  // Call the function to start telling the story (intro script).
-
     }
     reset(playAgain){
         console.log("resetting the game")
@@ -327,8 +313,7 @@ class Story {
             this.reset(playAgain)
         }else{
             playAgain = true;
-        }
-        
+        }      
     }
 }
 //////////////                ///////////////////////////////////////////////
@@ -446,12 +431,10 @@ class Player {
             inventory.append(lockpickLi)
             this.notes.splice(this.notes.indexOf("I need something to help me open that door..."))
             return gameName.tellStory(storyArray)
-
         }else{
             gameName.locations.merchantStand[1].forEach(sentence => {
                 storyArray.push(sentence);
-        });
-            
+        });   
             return gameName.tellStory(storyArray)
         }
     }
@@ -462,7 +445,6 @@ class Player {
         gameName.tellGrippingStory(storyArray)
         //gameName.tellStory(storyArray)     
         console.log(storyArray)
-   
 
     }
     visitNeighborFront(){
@@ -492,7 +474,6 @@ class Player {
             });
             return gameName.tellStory(storyArray)
         }
-
     }
 }
 
@@ -520,8 +501,6 @@ let playAgain = true;
 
 gameName = new Story()
 const player = new Player()
-
-
 
 gameName.startGame()
 
@@ -557,7 +536,6 @@ impNext.addEventListener("click", (evnt) => {
                     gameName.updateStoryArray(gameName.locations.alleyWay[2])
                     return gameName.tellStory(storyArray)
                 }
-                
             }else{
                 window.alert("You use your better judgement and leave the alley.")
                 skipChoices = false;
